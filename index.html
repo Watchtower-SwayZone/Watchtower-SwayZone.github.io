@@ -1,24 +1,268 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SwayZone C2 | Public Node</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0a0a0a; color: #00ff00; font-family: monospace; padding: 2rem; }
-        .container { border: 1px solid #333; padding: 1rem; max-width: 800px; margin: 0 auto; }
-        h1 { color: #ffffff; border-bottom: 1px solid #333; padding-bottom: 0.5rem; }
-        .status { font-weight: bold; color: #00ff00; }
-        .footer { margin-top: 2rem; font-size: 0.8rem; color: #555; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            color: #00ff00;
+            font-family: 'Space Mono', monospace;
+            padding: 2rem;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.2em;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #00ffff;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Main Content */
+        .content {
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+            box-shadow: 
+                0 0 20px rgba(0, 255, 0, 0.3),
+                inset 0 0 20px rgba(0, 255, 0, 0.05);
+            animation: fadeIn 1s ease-out 0.2s both;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .status-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #00ff00;
+            font-size: 1.1rem;
+        }
+
+        .status.active {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .secure {
+            color: #00ff00;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .info-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .info-text {
+            color: #00ff00;
+            line-height: 1.6;
+            margin-left: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+            animation: fadeIn 1.2s ease-out 0.6s both;
+        }
+
+        .opsec {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.2rem;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 4px;
+            color: #00ffff;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+            }
+
+            .status-line {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Glitch effect on hover */
+        .title:hover {
+            animation: glitch 0.3s ease-in-out;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
+            25% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 20px #00ffff; }
+            50% { text-shadow: -2px 2px 10px #ffff00, 2px -2px 20px #00ff00; }
+            75% { text-shadow: 2px -2px 10px #00ffff, -2px 2px 20px #ff00ff; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>WATCHTOWER :: SWAYZONE C2</h1>
-        <p>Public-Facing Telemetry Node</p>
-        <p>STATUS: <span class="status">ONLINE / SECURE</span></p>
-        <p>This node is an authorized intelligence terminal. Unauthorized access attempts are logged and blackholed.</p>
-        <div class="footer">Strict Sovereignty Framework Active.</div>
-    <p class="status" style="color: #00ffff;">[+] OPSEC MASKING: VERIFIED</p></div></body>
-</html>
+        <header>
+            <h1 class="title">⚡ WATCHTOWER</h1>
+            <p class="subtitle">SWAYZONE C2 NODE</p>
+            <p class="tagline">Public-Facing Telemetry Node</p>
+        </header>
 
+        <main class="content">
+            <div class="status-line">
+                <div>
+                    <span class="status">STATUS:</span>
+                    <span class="status-badge secure active">● ONLINE / SECURE</span>
+                </div>
+                <div class="status-badge">Node ID: PUB-001</div>
+            </div>
+
+            <section class="info-section">
+                <div class="info-label">> SYSTEM AUTHENTICATION</div>
+                <div class="info-text">This node is an authorized intelligence terminal.<br>Unauthorized access attempts are logged and blackholed.</div>
+            </section>
+
+            <section class="info-section">
+                <div class="info-label">> OPERATIONAL SECURITY</div>
+                <div class="info-text">Strict Sovereignty Framework Active</div>
+            </section>
+
+            <section class="info-section">
+                <div class="info-label">> VERIFICATION STATUS</div>
+                <div class="status-badge secure" style="display: block; width: fit-content;">
+                    ✓ OPSEC MASKING: VERIFIED
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Watchtower SwayZone © 2026 | All Rights Reserved</p>
+            <p style="margin-top: 0.5rem; color: #444;">Encrypted Communication Only</p>
+        </footer>
+    </div>
+</body>
+</html>
