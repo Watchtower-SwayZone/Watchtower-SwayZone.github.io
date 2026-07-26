@@ -52,6 +52,165 @@
                 linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent);
         }
 
+        /* Help Modal */
+        .help-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.98) 0%, rgba(10, 10, 10, 0.98) 100%);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 2rem;
+            z-index: 11000;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        body.private-mode .help-modal {
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.98) 0%, rgba(10, 0, 10, 0.98) 100%);
+            border-color: #ff0000;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+        }
+
+        .help-modal.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -55%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .help-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #00ff00;
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .help-close {
+            color: #ff0000;
+        }
+
+        .help-close:hover {
+            color: #00ffff;
+            transform: rotate(90deg);
+        }
+
+        body.private-mode .help-close:hover {
+            color: #ff6666;
+        }
+
+        .help-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #00ff00;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        body.private-mode .help-title {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .help-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        body.private-mode .help-section {
+            border-bottom-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .help-section:last-child {
+            border-bottom: none;
+        }
+
+        .help-section-title {
+            font-size: 1.2rem;
+            color: #00ffff;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+            font-weight: bold;
+        }
+
+        body.private-mode .help-section-title {
+            color: #ff6666;
+        }
+
+        .help-item {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(0, 255, 0, 0.05);
+            border-left: 2px solid #00ff00;
+            border-radius: 4px;
+        }
+
+        body.private-mode .help-item {
+            background: rgba(255, 0, 0, 0.05);
+            border-left-color: #ff0000;
+        }
+
+        .help-shortcut {
+            font-weight: bold;
+            color: #00ffaa;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 0.3rem;
+        }
+
+        body.private-mode .help-shortcut {
+            color: #ff6666;
+        }
+
+        .help-description {
+            color: #00ff00;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        body.private-mode .help-description {
+            color: #ff0000;
+        }
+
+        .help-note {
+            margin-left: 1rem;
+            color: #888;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+
+        .help-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 10999;
+            display: none;
+        }
+
+        .help-backdrop.active {
+            display: block;
+        }
+
         /* Hologram effect */
         @keyframes scanlines {
             0% { transform: translateY(0); }
@@ -372,6 +531,7 @@
             text-transform: uppercase;
             font-size: 0.85rem;
             letter-spacing: 0.05em;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
@@ -1039,6 +1199,10 @@
             .command-palette {
                 min-width: 90vw;
             }
+
+            .help-modal {
+                max-width: 90vw;
+            }
         }
 
         /* Glitch effect */
@@ -1138,6 +1302,232 @@
     </style>
 </head>
 <body>
+    <!-- Help Backdrop -->
+    <div class="help-backdrop" id="helpBackdrop" onclick="closeHelp()"></div>
+
+    <!-- Help Modal -->
+    <div class="help-modal" id="helpModal">
+        <span class="help-close" onclick="closeHelp()">✕</span>
+        <h1 class="help-title">📖 QUICK REFERENCE MANUAL</h1>
+
+        <!-- Keyboard Shortcuts -->
+        <div class="help-section">
+            <h2 class="help-section-title">⌨️ KEYBOARD SHORTCUTS</h2>
+            
+            <div class="help-item">
+                <div class="help-shortcut">Ctrl + /</div>
+                <div class="help-description">Open Command Palette - Search and execute commands instantly</div>
+                <div class="help-note">Type your query and press Enter or click a suggestion</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Escape</div>
+                <div class="help-description">Close Command Palette or Help Modal</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Arrow Up / Down</div>
+                <div class="help-description">Navigate command history in Command Palette</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">↑ ↑ ↓ ↓ ← → ← → B A</div>
+                <div class="help-description">KONAMI CODE - Activates secret features and Matrix Rain!</div>
+                <div class="help-note">This is a classic easter egg - try it!</div>
+            </div>
+        </div>
+
+        <!-- Terminal Commands -->
+        <div class="help-section">
+            <h2 class="help-section-title">💻 TERMINAL COMMANDS</h2>
+
+            <div class="help-item">
+                <div class="help-shortcut">help</div>
+                <div class="help-description">Display all available commands</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">time</div>
+                <div class="help-description">Show current system time and date</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">status</div>
+                <div class="help-description">Display detailed system status report</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">clear</div>
+                <div class="help-description">Clear terminal output</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">morse</div>
+                <div class="help-description">Encode text to Morse code (you'll be prompted for input)</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">ascii</div>
+                <div class="help-description">Generate random ASCII art banner</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">encrypt</div>
+                <div class="help-description">Show current encryption status and protocols</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">scan</div>
+                <div class="help-description">Run a security system scan (simulated)</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">matrix</div>
+                <div class="help-description">Toggle Matrix Rain effect - falling code animation</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">locations</div>
+                <div class="help-description">Show visitor heat map by geographic location</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">export</div>
+                <div class="help-description">Export system logs to CSV file</div>
+            </div>
+        </div>
+
+        <!-- Buttons & Controls -->
+        <div class="help-section">
+            <h2 class="help-section-title">🔘 ON-PAGE BUTTONS</h2>
+
+            <div class="help-item">
+                <div class="help-shortcut">⚕ Perform Health Check</div>
+                <div class="help-description">Run system diagnostics and health tests</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">📋 Copy Node Info</div>
+                <div class="help-description">Copy node details to clipboard</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">🎬 Toggle Hologram</div>
+                <div class="help-description">Enable/disable hologram scanline effect</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">🌧 Matrix Rain</div>
+                <div class="help-description">Start animated falling code effect</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">🎚 PUBLIC/PRIVATE Toggle</div>
+                <div class="help-description">Switch between public (green) and private (red) mode - persists in browser</div>
+            </div>
+        </div>
+
+        <!-- Interface Elements -->
+        <div class="help-section">
+            <h2 class="help-section-title">🎨 INTERFACE ELEMENTS</h2>
+
+            <div class="help-item">
+                <div class="help-shortcut">📊 Real-Time Charts</div>
+                <div class="help-description">View live CPU, Memory, and Network graphs - updates dynamically</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">🎞️ Terminal Panel</div>
+                <div class="help-description">Bottom-right terminal for live command execution. Click underscore (_) to collapse/expand</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">⏰ Live Clock</div>
+                <div class="help-description">Top navigation shows real-time clock (updates every second)</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">👥 Visitor Counter</div>
+                <div class="help-description">Tracks unique visitors - increments periodically</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">📜 Collapsible Sections</div>
+                <div class="help-description">Click any section header to expand/collapse for more details</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">🎪 Particle Effects</div>
+                <div class="help-description">Background particles animate continuously (green in public, red in private)</div>
+            </div>
+        </div>
+
+        <!-- Tips & Tricks -->
+        <div class="help-section">
+            <h2 class="help-section-title">💡 TIPS & TRICKS</h2>
+
+            <div class="help-item">
+                <div class="help-shortcut">Access Command Palette Anywhere</div>
+                <div class="help-description">Press Ctrl+/ from anywhere on the page to instantly open the command search</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Persistent Settings</div>
+                <div class="help-description">Your PUBLIC/PRIVATE mode preference is saved in browser storage and persists across sessions</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Try Combining Effects</div>
+                <div class="help-description">Enable hologram effect + matrix rain for an immersive experience!</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Browser Console</div>
+                <div class="help-description">Open DevTools (F12) and check the console for special messages and easter eggs</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Interactive Terminal</div>
+                <div class="help-description">Use the bottom-right terminal panel to run commands without opening the palette</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">Command History</div>
+                <div class="help-description">In Command Palette, use Arrow Up/Down to browse your previous commands</div>
+            </div>
+        </div>
+
+        <!-- Quick Start -->
+        <div class="help-section">
+            <h2 class="help-section-title">🚀 QUICK START</h2>
+
+            <div class="help-item">
+                <div class="help-shortcut">1. Explore Commands</div>
+                <div class="help-description">Press Ctrl+/ and type "help" to see all available commands</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">2. Try Shortcuts</div>
+                <div class="help-description">Try "ascii", "status", or "morse" commands to see what the system can do</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">3. Toggle Effects</div>
+                <div class="help-description">Click "🎬 Toggle Hologram" and "🌧 Matrix Rain" buttons for visual effects</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">4. Switch Modes</div>
+                <div class="help-description">Toggle between PUBLIC and PRIVATE modes to change the entire color scheme</div>
+            </div>
+
+            <div class="help-item">
+                <div class="help-shortcut">5. Unlock Easter Egg</div>
+                <div class="help-description">Try the Konami Code (↑↑↓↓←→←→BA) for a special surprise!</div>
+            </div>
+        </div>
+    </div>
+
     <!-- Hologram Overlay -->
     <div class="hologram-overlay"></div>
 
@@ -1175,6 +1565,7 @@
                 <li><a href="#services">Services</a></li>
                 <li><a href="#docs">Docs</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a onclick="openHelp()">❓ Help</a></li>
             </ul>
             <div class="nav-info">
                 <div class="live-clock" id="liveClock">00:00:00</div>
@@ -1383,6 +1774,25 @@
     </footer>
 
     <script>
+        // ==========================================
+        // HELP MODAL
+        // ==========================================
+        function openHelp() {
+            document.getElementById('helpModal').classList.add('active');
+            document.getElementById('helpBackdrop').classList.add('active');
+        }
+
+        function closeHelp() {
+            document.getElementById('helpModal').classList.remove('active');
+            document.getElementById('helpBackdrop').classList.remove('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeHelp();
+            }
+        });
+
         // ==========================================
         // INITIALIZATION & GLOBAL STATE
         // ==========================================
@@ -1721,11 +2131,7 @@
         }
 
         function showHelp() {
-            let helpText = 'Available commands:\n';
-            Object.entries(commands).forEach(([cmd, obj]) => {
-                helpText += `  ${cmd.padEnd(10)} - ${obj.description}\n`;
-            });
-            addTerminalLine(helpText);
+            openHelp();
         }
 
         function showTime() {
@@ -1808,7 +2214,7 @@ System Status Report:
             canvas.height = window.innerHeight;
             const ctx = canvas.getContext('2d');
             
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘ���マミムメモヤユヨラリルレロワヲン';
             const columns = Math.floor(canvas.width / 20);
             const drops = Array(columns).fill(0);
             
@@ -1971,10 +2377,12 @@ System Status Report:
             initCharts();
             updateClock();
             addTerminalLine('System ready. Type "help" for commands or press Ctrl+/ for command palette');
+            addTerminalLine('Click the ❓ Help button at the top for a complete reference manual!');
             
             // Print cool message
             console.log('%cWATCHTOWER SWAYZONE', 'font-size: 20px; color: #00ff00; font-weight: bold;');
             console.log('%cPress Ctrl+/ to open command palette. Konami code enabled!', 'color: #00ffff;');
+            console.log('%cClick the Help button (❓) in the navigation for a comprehensive reference guide!', 'color: #00ff00; font-weight: bold;');
         });
     </script>
 </body>
