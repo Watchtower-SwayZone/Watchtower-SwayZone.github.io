@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
             margin: 0;
@@ -51,7 +52,47 @@
                 linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent);
         }
 
-        /* Particle animation background */
+        /* Hologram effect */
+        @keyframes scanlines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(10px); }
+        }
+
+        .hologram-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                rgba(0, 255, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            animation: scanlines 0.15s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .hologram-overlay.active {
+            opacity: 1;
+        }
+
+        body.private-mode .hologram-overlay {
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 0, 0, 0.03) 0px,
+                rgba(255, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+        }
+
+        /* Particle Canvas */
         canvas#particles {
             position: fixed;
             top: 0;
@@ -60,6 +101,222 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
+        }
+
+        /* Matrix Rain Effect */
+        canvas#matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            display: none;
+        }
+
+        canvas#matrix.active {
+            display: block;
+        }
+
+        /* Command Palette */
+        .command-palette {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 1.5rem;
+            z-index: 10000;
+            min-width: 500px;
+            display: none;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        body.private-mode .command-palette {
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.95) 0%, rgba(10, 0, 10, 0.95) 100%);
+            border-color: #ff0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+        }
+
+        .command-palette.active {
+            display: block;
+        }
+
+        .command-palette input {
+            width: 100%;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 0.8rem;
+            border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        body.private-mode .command-palette input {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+
+        .command-palette input::placeholder {
+            color: #888;
+        }
+
+        .command-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .command-item {
+            padding: 0.8rem;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+            color: #00ff00;
+        }
+
+        body.private-mode .command-item {
+            color: #ff0000;
+        }
+
+        .command-item:hover,
+        .command-item.selected {
+            background: rgba(0, 255, 0, 0.2);
+            transform: translateX(5px);
+        }
+
+        body.private-mode .command-item:hover,
+        body.private-mode .command-item.selected {
+            background: rgba(255, 0, 0, 0.2);
+        }
+
+        .command-description {
+            font-size: 0.8rem;
+            color: #888;
+            margin-left: 1rem;
+        }
+
+        /* Terminal Panel */
+        .terminal-panel {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border: 2px solid #00ff00;
+            border-radius: 8px 8px 0 0;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -5px 30px rgba(0, 255, 0, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        body.private-mode .terminal-panel {
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.95) 0%, rgba(10, 0, 10, 0.95) 100%);
+            border-color: #ff0000;
+            box-shadow: 0 -5px 30px rgba(255, 0, 0, 0.2);
+        }
+
+        .terminal-panel.active {
+            transform: translateY(0);
+        }
+
+        .terminal-header {
+            padding: 0.8rem;
+            border-bottom: 1px solid #00ff00;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.private-mode .terminal-header {
+            border-bottom-color: #ff0000;
+        }
+
+        .terminal-title {
+            font-weight: bold;
+            color: #00ffff;
+        }
+
+        body.private-mode .terminal-title {
+            color: #ff6666;
+        }
+
+        .terminal-minimize {
+            cursor: pointer;
+            color: #00ff00;
+            font-size: 1.2rem;
+        }
+
+        body.private-mode .terminal-minimize {
+            color: #ff0000;
+        }
+
+        .terminal-output {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            padding: 0.5rem 0;
+            color: #00ff00;
+        }
+
+        body.private-mode .terminal-input-line {
+            color: #ff0000;
+        }
+
+        .terminal-prompt {
+            margin-right: 0.5rem;
+            color: #00ffff;
+        }
+
+        body.private-mode .terminal-prompt {
+            color: #ff6666;
+        }
+
+        .terminal-input-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #00ff00;
+            font-family: 'Space Mono', monospace;
+            outline: none;
+        }
+
+        body.private-mode .terminal-input-field {
+            color: #ff0000;
+        }
+
+        /* Typing Effect */
+        .typing-text {
+            overflow: hidden;
+            border-right: 2px solid #00ff00;
+            white-space: nowrap;
+            animation: typing 0.15s steps(40, end);
+        }
+
+        body.private-mode .typing-text {
+            border-right-color: #ff0000;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
         }
 
         /* Navigation */
@@ -129,6 +386,31 @@
         nav.private-mode .nav-links a:hover {
             color: #ff6666;
             text-shadow: 0 0 10px #ff6666;
+        }
+
+        .nav-info {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .live-clock {
+            color: #00ffff;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        body.private-mode .live-clock {
+            color: #ff6666;
+        }
+
+        .visitor-count {
+            color: #00ff00;
+            font-size: 0.9rem;
+        }
+
+        body.private-mode .visitor-count {
+            color: #ff0000;
         }
 
         /* Mode Toggle */
@@ -213,6 +495,8 @@
             letter-spacing: 0.2em;
             line-height: 1.2;
             transition: all 0.5s ease;
+            perspective: 1000px;
+            transform-style: preserve-3d;
         }
 
         body.private-mode .title {
@@ -236,6 +520,19 @@
             font-size: 0.9rem;
             color: #888;
             margin-bottom: 1.5rem;
+        }
+
+        .ascii-art {
+            color: #00ff00;
+            white-space: pre;
+            font-size: 0.7rem;
+            margin: 1rem 0;
+            text-align: center;
+            line-height: 1;
+        }
+
+        body.private-mode .ascii-art {
+            color: #ff0000;
         }
 
         /* Dashboard Grid */
@@ -293,6 +590,33 @@
 
         body.private-mode .stat-value {
             color: #ff0000;
+        }
+
+        /* Charts Container */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .chart-card {
+            border-color: #ff0000;
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(10, 0, 10, 0.8) 100%);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .chart-card canvas {
+            max-height: 250px;
         }
 
         /* Main Content */
@@ -707,6 +1031,14 @@
             .cards-grid {
                 grid-template-columns: 1fr;
             }
+
+            .terminal-panel {
+                width: 100%;
+            }
+
+            .command-palette {
+                min-width: 90vw;
+            }
         }
 
         /* Glitch effect */
@@ -757,11 +1089,82 @@
         body.private-mode ::-webkit-scrollbar-thumb:hover {
             background: #ff6666;
         }
+
+        /* Security Scan Animation */
+        .security-scan {
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body.private-mode .security-scan {
+            border-color: #ff0000;
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(10, 0, 10, 0.8) 100%);
+        }
+
+        .security-scan::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
+            animation: scan 3s infinite;
+        }
+
+        body.private-mode .security-scan::after {
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.2), transparent);
+        }
+
+        @keyframes scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .security-scan-text {
+            position: relative;
+            z-index: 1;
+            color: #00ff00;
+        }
+
+        body.private-mode .security-scan-text {
+            color: #ff0000;
+        }
     </style>
 </head>
 <body>
+    <!-- Hologram Overlay -->
+    <div class="hologram-overlay"></div>
+
     <!-- Particle Canvas -->
     <canvas id="particles"></canvas>
+
+    <!-- Matrix Rain Canvas -->
+    <canvas id="matrix"></canvas>
+
+    <!-- Command Palette -->
+    <div class="command-palette" id="commandPalette">
+        <input type="text" id="commandInput" placeholder="$ Type a command... (help for list)">
+        <div class="command-list" id="commandList"></div>
+    </div>
+
+    <!-- Terminal Panel -->
+    <div class="terminal-panel" id="terminalPanel">
+        <div class="terminal-header">
+            <span class="terminal-title">$ INTERACTIVE TERMINAL</span>
+            <span class="terminal-minimize" onclick="toggleTerminal()">_</span>
+        </div>
+        <div class="terminal-output" id="terminalOutput"></div>
+        <div style="padding: 0.8rem; border-top: 1px solid #00ff00; display: flex;">
+            <span class="terminal-prompt">$</span>
+            <input type="text" class="terminal-input-field" id="terminalInput" placeholder="Enter command...">
+        </div>
+    </div>
 
     <!-- Navigation -->
     <nav>
@@ -773,10 +1176,14 @@
                 <li><a href="#docs">Docs</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="mode-toggle">
-                <span class="mode-label" id="modeLabel">PUBLIC</span>
-                <div class="toggle-switch" id="modeToggle">
-                    <div class="toggle-slider"></div>
+            <div class="nav-info">
+                <div class="live-clock" id="liveClock">00:00:00</div>
+                <div class="visitor-count">👥 Visitors: <span id="visitorCount">1,234</span></div>
+                <div class="mode-toggle">
+                    <span class="mode-label" id="modeLabel">PUBLIC</span>
+                    <div class="toggle-switch" id="modeToggle">
+                        <div class="toggle-slider"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -787,6 +1194,7 @@
         <header>
             <h1 class="title">⚡ WATCHTOWER</h1>
             <p class="subtitle">SWAYZONE C2 NODE</p>
+            <div class="ascii-art" id="asciiArt"></div>
             <p class="tagline">Public-Facing Telemetry Node</p>
         </header>
 
@@ -807,6 +1215,22 @@
             <div class="stat-card">
                 <div class="stat-label">Network Health</div>
                 <div class="stat-value" id="health">98%</div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3 style="color: #00ffff; margin-bottom: 1rem;">CPU Usage (%)</h3>
+                <canvas id="cpuChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3 style="color: #00ffff; margin-bottom: 1rem;">Memory Usage (GB)</h3>
+                <canvas id="memoryChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h3 style="color: #00ffff; margin-bottom: 1rem;">Network Traffic (Mbps)</h3>
+                <canvas id="networkChart"></canvas>
             </div>
         </div>
 
@@ -839,7 +1263,17 @@
 
             <button onclick="performHealthCheck()">⚕ Perform Health Check</button>
             <button onclick="copyNodeInfo()">📋 Copy Node Info</button>
+            <button onclick="toggleHologram()">🎬 Toggle Hologram</button>
+            <button onclick="startMatrixRain()">🌧 Matrix Rain</button>
         </main>
+
+        <!-- Security Scan Section -->
+        <div class="security-scan">
+            <div class="security-scan-text">
+                <strong>🔒 SECURITY SCAN</strong><br>
+                <span id="scanStatus">Scanning system integrity... [████████░░] 85%</span>
+            </div>
+        </div>
 
         <!-- Services Section -->
         <section id="services" class="cards-grid" style="margin-top: 2rem;">
@@ -949,19 +1383,38 @@
     </footer>
 
     <script>
-        // Particle Animation
-        const canvas = document.getElementById('particles');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        let particles = [];
+        // ==========================================
+        // INITIALIZATION & GLOBAL STATE
+        // ==========================================
         let isPrivateMode = localStorage.getItem('privateMode') === 'true';
+        let particles = [];
+        let charts = {};
+        let visitorCount = parseInt(localStorage.getItem('visitorCount')) || 1234;
+        let commandHistory = [];
+        let historyIndex = 0;
 
+        const commands = {
+            'help': { description: 'Show all available commands', fn: showHelp },
+            'time': { description: 'Show current time', fn: showTime },
+            'clear': { description: 'Clear terminal', fn: clearTerminal },
+            'status': { description: 'Show system status', fn: showSystemStatus },
+            'morse': { description: 'Encode text to morse code', fn: openMorse },
+            'ascii': { description: 'Generate random ASCII art', fn: generateASCII },
+            'encrypt': { description: 'Show encryption status', fn: showEncryption },
+            'scan': { description: 'Run security scan', fn: runSecurityScan },
+            'matrix': { description: 'Start matrix rain effect', fn: startMatrixRain },
+            'locations': { description: 'Show visitor heat map', fn: showLocations },
+            'export': { description: 'Export system logs', fn: exportLogs },
+            'konami': { description: 'Secret code activated!', fn: konamiCode }
+        };
+
+        // ==========================================
+        // PARTICLES & ANIMATIONS
+        // ==========================================
         class Particle {
             constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
+                this.x = Math.random() * innerWidth;
+                this.y = Math.random() * innerHeight;
                 this.size = Math.random() * 2 + 0.5;
                 this.speedX = (Math.random() - 0.5) * 0.5;
                 this.speedY = (Math.random() - 0.5) * 0.5;
@@ -970,14 +1423,13 @@
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-
-                if (this.x > canvas.width) this.x = 0;
-                if (this.x < 0) this.x = canvas.width;
-                if (this.y > canvas.height) this.y = 0;
-                if (this.y < 0) this.y = canvas.height;
+                if (this.x > innerWidth) this.x = 0;
+                if (this.x < 0) this.x = innerWidth;
+                if (this.y > innerHeight) this.y = 0;
+                if (this.y < 0) this.y = innerHeight;
             }
 
-            draw() {
+            draw(ctx) {
                 ctx.fillStyle = isPrivateMode ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -993,70 +1445,455 @@
         }
 
         function animateParticles() {
+            const canvas = document.getElementById('particles');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
             for (let particle of particles) {
                 particle.update();
-                particle.draw();
+                particle.draw(ctx);
             }
-            
             requestAnimationFrame(animateParticles);
         }
 
-        // Mode Toggle
-        const modeToggle = document.getElementById('modeToggle');
-        const modeLabel = document.getElementById('modeLabel');
-
+        // ==========================================
+        // MODE TOGGLE
+        // ==========================================
         function initializeMode() {
             if (isPrivateMode) {
                 document.body.classList.add('private-mode');
                 document.querySelector('nav').classList.add('private-mode');
-                modeToggle.classList.add('private');
-                modeLabel.textContent = 'PRIVATE';
+                document.getElementById('modeToggle').classList.add('private');
+                document.getElementById('modeLabel').textContent = 'PRIVATE';
             }
         }
 
-        modeToggle.addEventListener('click', () => {
+        document.getElementById('modeToggle').addEventListener('click', () => {
             isPrivateMode = !isPrivateMode;
             localStorage.setItem('privateMode', isPrivateMode);
             
             document.body.classList.toggle('private-mode');
             document.querySelector('nav').classList.toggle('private-mode');
-            modeToggle.classList.toggle('private');
-            modeLabel.textContent = isPrivateMode ? 'PRIVATE' : 'PUBLIC';
+            document.getElementById('modeToggle').classList.toggle('private');
+            document.getElementById('modeLabel').textContent = isPrivateMode ? 'PRIVATE' : 'PUBLIC';
             
-            // Reinitialize particles with new colors
             initParticles();
+            updateCharts();
         });
 
-        // Collapsible sections
+        // ==========================================
+        // LIVE CLOCK
+        // ==========================================
+        function updateClock() {
+            const now = new Date();
+            const time = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('liveClock').textContent = time;
+        }
+
+        setInterval(updateClock, 1000);
+
+        // ==========================================
+        // VISITOR COUNTER
+        // ==========================================
+        function updateVisitorCount() {
+            visitorCount += Math.floor(Math.random() * 5);
+            localStorage.setItem('visitorCount', visitorCount);
+            document.getElementById('visitorCount').textContent = visitorCount.toLocaleString();
+        }
+
+        setInterval(updateVisitorCount, 15000);
+
+        // ==========================================
+        // ASCII ART
+        // ==========================================
+        const asciiArtCollection = [
+            ` _____ __________________  _____ 
+|     |                    |/     |
+| _   |   WATCHTOWER       |   _  |
+||_|  |                    |  |_| |
+|     |____________________|     |
+ \\___/                      \\___/ `,
+            ` [#################------] 85% ONLINE `,
+            `  ⚡  ACTIVE  ⚡  SECURE  ⚡  ONLINE  ⚡ `,
+            ` ╔════════════════════════╗
+ ║    SWAYZONE NODE         ║
+ ║    [ ● OPERATIONAL ]     ║
+ ╚════════════════════════╝ `,
+            ` █▀█ █▀▄ █▀▀ █─█ 
+ █─█ █─█ █── █▀▄ 
+ ▀─▀ ▀▀─ ▀▀▀ ▀─▀ `
+        ];
+
+        function generateASCII() {
+            const art = asciiArtCollection[Math.floor(Math.random() * asciiArtCollection.length)];
+            document.getElementById('asciiArt').textContent = art;
+            typeText(`Generated new ASCII art`, 'terminalOutput');
+        }
+
+        generateASCII();
+
+        // ==========================================
+        // TYPING EFFECT
+        // ==========================================
+        function typeText(text, elementId, speed = 50) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let i = 0;
+            element.textContent = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // ==========================================
+        // CHARTS
+        // ==========================================
+        function initCharts() {
+            const chartColor = isPrivateMode ? '#ff0000' : '#00ff00';
+            const gridColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
+            const textColor = isPrivateMode ? '#ff6666' : '#00ffff';
+
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        labels: { color: textColor }
+                    }
+                },
+                scales: {
+                    y: {
+                        grid: { color: gridColor },
+                        ticks: { color: textColor }
+                    },
+                    x: {
+                        grid: { color: gridColor },
+                        ticks: { color: textColor }
+                    }
+                }
+            };
+
+            // CPU Chart
+            const cpuCtx = document.getElementById('cpuChart');
+            charts.cpu = new Chart(cpuCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 12}, (_, i) => i),
+                    datasets: [{
+                        label: 'CPU %',
+                        data: Array.from({length: 12}, () => Math.random() * 100),
+                        borderColor: chartColor,
+                        backgroundColor: isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Memory Chart
+            const memCtx = document.getElementById('memoryChart');
+            charts.memory = new Chart(memCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Used', 'Free'],
+                    datasets: [{
+                        label: 'GB',
+                        data: [24, 8],
+                        backgroundColor: [chartColor, gridColor],
+                        borderColor: chartColor,
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // Network Chart
+            const netCtx = document.getElementById('networkChart');
+            charts.network = new Chart(netCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Incoming', 'Outgoing'],
+                    datasets: [{
+                        data: [65, 35],
+                        backgroundColor: [chartColor, gridColor],
+                        borderColor: isPrivateMode ? '#1a0a1a' : '#0a0a0a',
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+        }
+
+        function updateCharts() {
+            const chartColor = isPrivateMode ? '#ff0000' : '#00ff00';
+            const gridColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
+
+            if (charts.cpu) {
+                charts.cpu.data.datasets[0].borderColor = chartColor;
+                charts.cpu.data.datasets[0].backgroundColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
+                charts.cpu.update();
+            }
+            if (charts.memory) {
+                charts.memory.data.datasets[0].backgroundColor = [chartColor, gridColor];
+                charts.memory.data.datasets[0].borderColor = chartColor;
+                charts.memory.update();
+            }
+            if (charts.network) {
+                charts.network.data.datasets[0].backgroundColor = [chartColor, gridColor];
+                charts.network.data.datasets[0].borderColor = isPrivateMode ? '#1a0a1a' : '#0a0a0a';
+                charts.network.update();
+            }
+        }
+
+        // ==========================================
+        // COMMAND PALETTE
+        // ==========================================
+        const commandInput = document.getElementById('commandInput');
+        const commandPalette = document.getElementById('commandPalette');
+        const commandList = document.getElementById('commandList');
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '/' && e.ctrlKey) {
+                e.preventDefault();
+                commandPalette.classList.toggle('active');
+                commandInput.focus();
+            }
+            if (e.key === 'Escape') {
+                commandPalette.classList.remove('active');
+            }
+        });
+
+        commandInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = commandInput.value.trim().toLowerCase();
+                commandHistory.push(cmd);
+                historyIndex = commandHistory.length;
+                
+                if (commands[cmd]) {
+                    commands[cmd].fn();
+                } else {
+                    addTerminalLine(`Unknown command: ${cmd}. Type 'help' for available commands.`);
+                }
+                
+                commandInput.value = '';
+                updateCommandList();
+            }
+            if (e.key === 'ArrowUp') {
+                historyIndex = Math.max(0, historyIndex - 1);
+                commandInput.value = commandHistory[historyIndex] || '';
+            }
+            if (e.key === 'ArrowDown') {
+                historyIndex = Math.min(commandHistory.length, historyIndex + 1);
+                commandInput.value = commandHistory[historyIndex] || '';
+            }
+        });
+
+        commandInput.addEventListener('input', updateCommandList);
+
+        function updateCommandList() {
+            const value = commandInput.value.toLowerCase();
+            const filtered = Object.keys(commands).filter(cmd => cmd.includes(value));
+            
+            commandList.innerHTML = filtered.map(cmd => 
+                `<div class="command-item">${cmd}<span class="command-description">${commands[cmd].description}</span></div>`
+            ).join('');
+        }
+
+        // ==========================================
+        // TERMINAL COMMANDS
+        // ==========================================
+        function addTerminalLine(text) {
+            const terminalOutput = document.getElementById('terminalOutput');
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.textContent = `$ ${text}`;
+            terminalOutput.appendChild(line);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        function showHelp() {
+            let helpText = 'Available commands:\n';
+            Object.entries(commands).forEach(([cmd, obj]) => {
+                helpText += `  ${cmd.padEnd(10)} - ${obj.description}\n`;
+            });
+            addTerminalLine(helpText);
+        }
+
+        function showTime() {
+            addTerminalLine(`Current time: ${new Date().toLocaleString()}`);
+        }
+
+        function clearTerminal() {
+            document.getElementById('terminalOutput').innerHTML = '';
+        }
+
+        function showSystemStatus() {
+            const status = `
+System Status Report:
+- Uptime: 437 days
+- CPU Usage: ${Math.floor(Math.random() * 100)}%
+- Memory: 24/32 GB
+- Network: 2.3Tbps
+- Nodes Active: 2,847
+- Security: ✓ Verified
+            `;
+            addTerminalLine(status);
+        }
+
+        function openMorse() {
+            const text = prompt('Enter text to encode to Morse code:');
+            if (!text) return;
+            
+            const morseMap = {
+                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+                'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+                '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+                '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--'
+            };
+            
+            const morse = text.toUpperCase().split('').map(c => morseMap[c] || c).join(' ');
+            addTerminalLine(`Morse: ${morse}`);
+        }
+
+        function showEncryption() {
+            addTerminalLine('Encryption Status: AES-256-GCM ✓ Active');
+            addTerminalLine('TLS 1.3 ✓ Verified');
+            addTerminalLine('Key Exchange: ECDHE ✓ Secure');
+        }
+
+        function runSecurityScan() {
+            addTerminalLine('Running security scan...');
+            setTimeout(() => addTerminalLine('✓ All systems secure'), 1000);
+        }
+
+        function showLocations() {
+            addTerminalLine('Generating visitor heat map...');
+            setTimeout(() => addTerminalLine('Top locations: US (45%), EU (30%), ASIA (20%), OTHER (5%)'), 500);
+        }
+
+        function exportLogs() {
+            addTerminalLine('Exporting logs to CSV...');
+            setTimeout(() => addTerminalLine('✓ logs_export.csv (2.3 MB)'), 500);
+        }
+
+        function konamiCode() {
+            addTerminalLine('🎮 KONAMI CODE ACTIVATED! 🎮');
+            addTerminalLine('████████████████████ 100% UNLOCKED');
+            addTerminalLine('Access all secret features!');
+            startMatrixRain();
+        }
+
+        // ==========================================
+        // MATRIX RAIN
+        // ==========================================
+        function startMatrixRain() {
+            const canvas = document.getElementById('matrix');
+            canvas.classList.toggle('active');
+            
+            if (!canvas.classList.contains('active')) return;
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            const ctx = canvas.getContext('2d');
+            
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const columns = Math.floor(canvas.width / 20);
+            const drops = Array(columns).fill(0);
+            
+            function draw() {
+                ctx.fillStyle = isPrivateMode ? 'rgba(26, 10, 10, 0.1)' : 'rgba(10, 26, 10, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = isPrivateMode ? '#ff0000' : '#00ff00';
+                ctx.font = '20px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * 20, drops[i] * 20);
+                    
+                    if (drops[i] * 20 > canvas.height && Math.random() > 0.95) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            const interval = setInterval(() => {
+                if (!canvas.classList.contains('active')) {
+                    clearInterval(interval);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                } else {
+                    draw();
+                }
+            }, 50);
+        }
+
+        // ==========================================
+        // HOLOGRAM EFFECT
+        // ==========================================
+        function toggleHologram() {
+            document.querySelector('.hologram-overlay').classList.toggle('active');
+        }
+
+        // ==========================================
+        // BUTTON FUNCTIONS
+        // ==========================================
+        function performHealthCheck() {
+            const timestamp = new Date().toLocaleString();
+            addTerminalLine(`Health check initiated at ${timestamp}`);
+            setTimeout(() => {
+                addTerminalLine('✓ All systems operational');
+                addTerminalLine('✓ Network latency: 2.3ms');
+                addTerminalLine('✓ Database sync: 99.99%');
+            }, 1000);
+        }
+
+        function copyNodeInfo() {
+            const nodeInfo = `WATCHTOWER :: SWAYZONE C2\nNode ID: PUB-001\nStatus: ONLINE / SECURE\nUptime: 99.9%\nNetwork Health: 98%`;
+            navigator.clipboard.writeText(nodeInfo).then(() => {
+                alert('Node information copied!');
+            });
+        }
+
         function toggleCollapsible(element) {
             const content = element.nextElementSibling;
-            if (content.classList.contains('collapsible-content')) {
+            if (content && content.classList.contains('collapsible-content')) {
                 content.classList.toggle('active');
             }
         }
 
-        // Health Check Button
-        function performHealthCheck() {
-            const terminalLog = document.getElementById('terminalLog');
-            const timestamp = new Date().toLocaleString();
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            line.textContent = `[${timestamp}] Health check initiated... Status: ✓ All systems operational`;
-            terminalLog.appendChild(line);
-            terminalLog.parentElement.scrollTop = terminalLog.parentElement.scrollHeight;
+        function toggleTerminal() {
+            document.getElementById('terminalPanel').classList.toggle('active');
         }
 
-        // Copy Node Info
-        function copyNodeInfo() {
-            const nodeInfo = `WATCHTOWER :: SWAYZONE C2\nNode ID: PUB-001\nStatus: ONLINE / SECURE\nUptime: 99.9%\nNetwork Health: 98%`;
-            navigator.clipboard.writeText(nodeInfo).then(() => {
-                alert('Node information copied to clipboard!');
-            });
-        }
+        // Terminal input
+        document.getElementById('terminalInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = e.target.value.trim().toLowerCase();
+                if (commands[cmd]) {
+                    commands[cmd].fn();
+                } else {
+                    addTerminalLine(`Unknown command: ${cmd}`);
+                }
+                e.target.value = '';
+            }
+        });
 
-        // Animate stats on load
+        // ==========================================
+        // STATS ANIMATION
+        // ==========================================
         function animateStats() {
             const stats = [
                 { element: document.getElementById('uptime'), target: 99.9, suffix: '%' },
@@ -1080,18 +1917,64 @@
             });
         }
 
-        // Window resize handler
+        // ==========================================
+        // SECURITY SCAN ANIMATION
+        // ==========================================
+        function animateSecurityScan() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress = (progress + Math.random() * 15) % 100;
+                const barLength = Math.floor(progress / 5);
+                const bar = '█'.repeat(barLength) + '░'.repeat(20 - barLength);
+                document.getElementById('scanStatus').textContent = `Scanning system integrity... [${bar}] ${Math.floor(progress)}%`;
+            }, 1500);
+        }
+
+        // ==========================================
+        // WINDOW RESIZE
+        // ==========================================
         window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const canvas = document.getElementById('particles');
+            if (canvas) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
         });
 
-        // Initialize
+        // ==========================================
+        // KONAMI CODE
+        // ==========================================
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiSequence[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiSequence.length) {
+                    konamiCode();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // ==========================================
+        // INITIALIZATION
+        // ==========================================
         window.addEventListener('load', () => {
             initializeMode();
             initParticles();
             animateParticles();
             animateStats();
+            animateSecurityScan();
+            initCharts();
+            updateClock();
+            addTerminalLine('System ready. Type "help" for commands or press Ctrl+/ for command palette');
+            
+            // Print cool message
+            console.log('%cWATCHTOWER SWAYZONE', 'font-size: 20px; color: #00ff00; font-weight: bold;');
+            console.log('%cPress Ctrl+/ to open command palette. Konami code enabled!', 'color: #00ffff;');
         });
     </script>
 </body>
