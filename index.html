@@ -19,9 +19,14 @@
             background-attachment: fixed;
             color: #00ff00;
             font-family: 'Space Mono', monospace;
-            padding: 2rem;
+            padding: 0;
             min-height: 100vh;
             overflow-x: hidden;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode {
+            background: linear-gradient(135deg, #1a0a1a 0%, #2a0a2e 50%, #1a0a3e 100%);
         }
 
         /* Animated background grid */
@@ -40,11 +45,144 @@
             z-index: 1;
         }
 
+        body.private-mode::before {
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent);
+        }
+
+        /* Particle animation background */
+        canvas#particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.8) 100%);
+            border-bottom: 2px solid #00ff00;
+            padding: 1rem 2rem;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        nav.private-mode {
+            border-bottom-color: #ff0000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+            letter-spacing: 0.1em;
+        }
+
+        nav.private-mode .nav-logo {
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #00ff00;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        nav.private-mode .nav-links a {
+            color: #ff0000;
+        }
+
+        nav.private-mode .nav-links a:hover {
+            color: #ff6666;
+            text-shadow: 0 0 10px #ff6666;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #00ff00;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #00ff00;
+        }
+
+        .toggle-switch.private {
+            background: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: #0a0a0a;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.private .toggle-slider {
+            left: 32px;
+        }
+
+        .mode-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            min-width: 50px;
+        }
+
+        /* Main Container */
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
+            padding: 2rem;
         }
 
         /* Header Section */
@@ -74,6 +212,12 @@
             margin-bottom: 0.5rem;
             letter-spacing: 0.2em;
             line-height: 1.2;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .title {
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+            color: #ffcccc;
         }
 
         .subtitle {
@@ -81,12 +225,74 @@
             color: #00ffff;
             letter-spacing: 0.15em;
             margin-bottom: 1rem;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .subtitle {
+            color: #ff6666;
         }
 
         .tagline {
             font-size: 0.9rem;
             color: #888;
             margin-bottom: 1.5rem;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
+            text-align: center;
+            animation: fadeIn 1s ease-out;
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .stat-card {
+            border-color: #ff0000;
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(10, 0, 10, 0.8) 100%);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4);
+        }
+
+        body.private-mode .stat-card:hover {
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+        }
+
+        .stat-label {
+            color: #00ffff;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        body.private-mode .stat-label {
+            color: #ff6666;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff00;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        body.private-mode .stat-value {
+            color: #ff0000;
         }
 
         /* Main Content */
@@ -99,6 +305,16 @@
                 0 0 20px rgba(0, 255, 0, 0.3),
                 inset 0 0 20px rgba(0, 255, 0, 0.05);
             animation: fadeIn 1s ease-out 0.2s both;
+            margin-bottom: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .content {
+            border-color: #ff0000;
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(10, 0, 10, 0.8) 100%);
+            box-shadow: 
+                0 0 20px rgba(255, 0, 0, 0.3),
+                inset 0 0 20px rgba(255, 0, 0, 0.05);
         }
 
         @keyframes fadeIn {
@@ -121,10 +337,19 @@
             gap: 1rem;
         }
 
+        body.private-mode .status-line {
+            border-bottom-color: rgba(255, 0, 0, 0.3);
+        }
+
         .status {
             font-weight: bold;
             color: #00ff00;
             font-size: 1.1rem;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .status {
+            color: #ff0000;
         }
 
         .status.active {
@@ -143,35 +368,257 @@
             padding: 0.4rem 0.8rem;
             border-radius: 4px;
             font-size: 0.85rem;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .status-badge {
+            background: rgba(255, 0, 0, 0.1);
+            border-color: #ff0000;
         }
 
         .secure {
             color: #00ff00;
         }
 
-        .info-section {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+        body.private-mode .secure {
+            color: #ff0000;
         }
 
-        .info-section:last-of-type {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
+        /* Section Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .info-label {
+        .service-card {
+            border: 2px solid #00ff00;
+            border-radius: 6px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 30, 0, 0.6) 0%, rgba(10, 10, 10, 0.7) 100%);
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .service-card {
+            border-color: #ff0000;
+            background: linear-gradient(135deg, rgba(30, 0, 0, 0.6) 0%, rgba(10, 0, 10, 0.7) 100%);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.15);
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        body.private-mode .service-card:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .service-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-title {
             color: #00ffff;
             font-weight: bold;
             margin-bottom: 0.5rem;
-            letter-spacing: 0.1em;
+            transition: all 0.5s ease;
         }
 
-        .info-text {
+        body.private-mode .service-title {
+            color: #ff6666;
+        }
+
+        .service-status {
+            font-size: 0.85rem;
             color: #00ff00;
-            line-height: 1.6;
+        }
+
+        body.private-mode .service-status {
+            color: #ff0000;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff00;
+            margin-right: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        body.private-mode .status-dot {
+            background: #ff0000;
+        }
+
+        /* Terminal Log */
+        .terminal {
+            border: 2px solid #00ff00;
+            border-radius: 6px;
+            padding: 1.5rem;
+            background: rgba(0, 10, 0, 0.9);
+            font-size: 0.85rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .terminal {
+            border-color: #ff0000;
+            background: rgba(10, 0, 0, 0.9);
+        }
+
+        .terminal-line {
+            color: #00ff00;
+            margin-bottom: 0.5rem;
+            word-break: break-word;
+        }
+
+        body.private-mode .terminal-line {
+            color: #ff0000;
+        }
+
+        .terminal-label {
+            color: #00ffff;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        body.private-mode .terminal-label {
+            color: #ff6666;
+        }
+
+        /* Buttons */
+        button {
+            background: linear-gradient(135deg, #00ff00, #00ffaa);
+            color: #0a0a0a;
+            border: 2px solid #00ff00;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            margin-right: 0.5rem;
+        }
+
+        body.private-mode button {
+            background: linear-gradient(135deg, #ff0000, #ff6666);
+            border-color: #ff0000;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.4);
+        }
+
+        body.private-mode button:hover {
+            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+        }
+
+        /* Collapsible Sections */
+        .collapsible {
+            cursor: pointer;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 255, 0.05));
+            border: 1px solid #00ff00;
+            border-radius: 4px;
+            color: #00ff00;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .collapsible {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 100, 100, 0.05));
+            border-color: #ff0000;
+            color: #ff0000;
+        }
+
+        .collapsible:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 255, 0.1));
+        }
+
+        body.private-mode .collapsible:hover {
+            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 100, 100, 0.1));
+        }
+
+        .collapsible-content {
+            display: none;
+            padding: 1rem;
+            background: rgba(0, 10, 0, 0.5);
+            border-left: 2px solid #00ff00;
             margin-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        body.private-mode .collapsible-content {
+            background: rgba(10, 0, 0, 0.5);
+            border-left-color: #ff0000;
+        }
+
+        .collapsible-content.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 1rem 0;
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            border-left: 2px solid #00ff00;
+        }
+
+        body.private-mode .timeline-item {
+            border-left-color: #ff0000;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 1.5rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #00ff00;
+        }
+
+        body.private-mode .timeline-item::before {
+            background: #ff0000;
+        }
+
+        .timeline-time {
+            color: #00ffff;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        body.private-mode .timeline-time {
+            color: #ff6666;
+        }
+
+        .timeline-event {
+            color: #00ff00;
+            margin-top: 0.5rem;
+        }
+
+        body.private-mode .timeline-event {
+            color: #ff0000;
         }
 
         /* Footer */
@@ -181,6 +628,39 @@
             color: #555;
             font-size: 0.85rem;
             animation: fadeIn 1.2s ease-out 0.6s both;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        body.private-mode footer {
+            border-top-color: rgba(255, 0, 0, 0.2);
+        }
+
+        .social-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: #00ff00;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        body.private-mode .social-links a {
+            color: #ff0000;
+        }
+
+        .social-links a:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
+        }
+
+        body.private-mode .social-links a:hover {
+            color: #ff6666;
+            text-shadow: 0 0 10px #ff6666;
         }
 
         .opsec {
@@ -193,6 +673,13 @@
             color: #00ffff;
             font-weight: bold;
             letter-spacing: 0.05em;
+            transition: all 0.5s ease;
+        }
+
+        body.private-mode .opsec {
+            background: rgba(255, 100, 100, 0.1);
+            border-color: #ff6666;
+            color: #ff6666;
         }
 
         /* Responsive Design */
@@ -205,13 +692,24 @@
                 padding: 1.5rem;
             }
 
-            .status-line {
-                flex-direction: column;
-                align-items: flex-start;
+            .nav-container {
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
             }
         }
 
-        /* Glitch effect on hover */
+        /* Glitch effect */
         .title:hover {
             animation: glitch 0.3s ease-in-out;
         }
@@ -222,9 +720,69 @@
             50% { text-shadow: -2px 2px 10px #ffff00, 2px -2px 20px #00ff00; }
             75% { text-shadow: 2px -2px 10px #00ffff, -2px 2px 20px #ff00ff; }
         }
+
+        body.private-mode .title:hover {
+            animation: glitch-private 0.3s ease-in-out;
+        }
+
+        @keyframes glitch-private {
+            0%, 100% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
+            25% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 20px #ff6666; }
+            50% { text-shadow: -2px 2px 10px #ffff00, 2px -2px 20px #ff0000; }
+            75% { text-shadow: 2px -2px 10px #ff6666, -2px 2px 20px #ff00ff; }
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #00ff00;
+            border-radius: 5px;
+        }
+
+        body.private-mode ::-webkit-scrollbar-thumb {
+            background: #ff0000;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ffff;
+        }
+
+        body.private-mode ::-webkit-scrollbar-thumb:hover {
+            background: #ff6666;
+        }
     </style>
 </head>
 <body>
+    <!-- Particle Canvas -->
+    <canvas id="particles"></canvas>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo">⚡ WATCHTOWER</div>
+            <ul class="nav-links">
+                <li><a href="#status">Status</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#docs">Docs</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mode-toggle">
+                <span class="mode-label" id="modeLabel">PUBLIC</span>
+                <div class="toggle-switch" id="modeToggle">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
     <div class="container">
         <header>
             <h1 class="title">⚡ WATCHTOWER</h1>
@@ -232,7 +790,28 @@
             <p class="tagline">Public-Facing Telemetry Node</p>
         </header>
 
-        <main class="content">
+        <!-- Dashboard Stats -->
+        <div class="dashboard">
+            <div class="stat-card">
+                <div class="stat-label">Uptime</div>
+                <div class="stat-value" id="uptime">99.9%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Nodes</div>
+                <div class="stat-value" id="activeNodes">2,847</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Requests/s</div>
+                <div class="stat-value" id="requestsPerSec">1,234</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Network Health</div>
+                <div class="stat-value" id="health">98%</div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="content" id="status">
             <div class="status-line">
                 <div>
                     <span class="status">STATUS:</span>
@@ -257,12 +836,263 @@
                     ✓ OPSEC MASKING: VERIFIED
                 </div>
             </section>
+
+            <button onclick="performHealthCheck()">⚕ Perform Health Check</button>
+            <button onclick="copyNodeInfo()">📋 Copy Node Info</button>
         </main>
 
-        <footer>
-            <p>Watchtower SwayZone © 2026 | All Rights Reserved</p>
-            <p style="margin-top: 0.5rem; color: #444;">Encrypted Communication Only</p>
-        </footer>
+        <!-- Services Section -->
+        <section id="services" class="cards-grid" style="margin-top: 2rem;">
+            <div class="service-card">
+                <div class="service-icon">🔒</div>
+                <div class="service-title">API Gateway</div>
+                <div class="service-status"><span class="status-dot"></span>Online</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📊</div>
+                <div class="service-title">Database</div>
+                <div class="service-status"><span class="status-dot"></span>Operational</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔄</div>
+                <div class="service-title">Sync Service</div>
+                <div class="service-status"><span class="status-dot"></span>Active</div>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📡</div>
+                <div class="service-title">Telemetry</div>
+                <div class="service-status"><span class="status-dot"></span>Running</div>
+            </div>
+        </section>
+
+        <!-- Terminal Log -->
+        <div class="terminal">
+            <div class="terminal-label">> SYSTEM LOG</div>
+            <div id="terminalLog">
+                <div class="terminal-line">[2026-07-26 21:30:15] System initialized</div>
+                <div class="terminal-line">[2026-07-26 21:30:16] Security framework verified</div>
+                <div class="terminal-line">[2026-07-26 21:30:17] Node ID: PUB-001 registered</div>
+                <div class="terminal-line">[2026-07-26 21:30:18] OPSEC masking engaged</div>
+                <div class="terminal-line">[2026-07-26 21:30:20] All systems operational</div>
+            </div>
+        </div>
+
+        <!-- Collapsible Sections -->
+        <div class="collapsible" onclick="toggleCollapsible(this)">📚 API ENDPOINTS</div>
+        <div class="collapsible-content">
+            <div class="terminal-line">POST /api/v1/authenticate</div>
+            <div class="terminal-line">GET /api/v1/status</div>
+            <div class="terminal-line">GET /api/v1/nodes</div>
+            <div class="terminal-line">POST /api/v1/telemetry</div>
+        </div>
+
+        <div class="collapsible" onclick="toggleCollapsible(this)">⚙️ TECHNICAL SPECS</div>
+        <div class="collapsible-content">
+            <div class="terminal-line">CPU: 8 vCores | RAM: 32GB | Storage: 2TB SSD</div>
+            <div class="terminal-line">Uptime: 437 days | Load Avg: 0.42</div>
+            <div class="terminal-line">Network: 10Gbps | Bandwidth Used: 2.3Tbps</div>
+        </div>
+
+        <!-- Timeline -->
+        <div style="margin-top: 2rem;">
+            <h2 style="color: #00ffff; margin-bottom: 1rem; letter-spacing: 0.1em;">📜 RECENT UPDATES</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">2026-07-26 14:32</div>
+                    <div class="timeline-event">System upgrade completed successfully</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2026-07-25 08:15</div>
+                    <div class="timeline-event">Security patches deployed across all nodes</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2026-07-24 19:45</div>
+                    <div class="timeline-event">Network optimization round-trip time reduced by 23%</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">2026-07-23 11:20</div>
+                    <div class="timeline-event">Database replication synchronization achieved 99.99% consistency</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Section -->
+        <div id="docs" class="collapsible" onclick="toggleCollapsible(this)" style="margin-top: 2rem;">📖 DOCUMENTATION</div>
+        <div class="collapsible-content">
+            <div class="terminal-line"><strong>Getting Started:</strong></div>
+            <div class="terminal-line">1. Authenticate with provided credentials</div>
+            <div class="terminal-line">2. Initialize secure connection tunnel</div>
+            <div class="terminal-line">3. Configure telemetry parameters</div>
+            <div class="terminal-line">4. Begin data transmission</div>
+            <br>
+            <div class="terminal-line"><strong>Security:</strong> All communications use end-to-end encryption</div>
+            <div class="terminal-line"><strong>Support:</strong> Contact ops@watchtower.local for assistance</div>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact" style="margin-top: 2rem; padding: 1.5rem; border: 2px solid #00ff00; border-radius: 8px; background: rgba(0, 20, 0, 0.5);">
+            <h2 style="color: #00ffff; margin-bottom: 1rem;">📬 GET IN TOUCH</h2>
+            <div class="social-links">
+                <a href="#">Discord</a>
+                <a href="#">Twitter</a>
+                <a href="#">GitHub</a>
+                <a href="#">Email</a>
+            </div>
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>Watchtower SwayZone © 2026 | All Rights Reserved</p>
+        <p style="margin-top: 0.5rem; color: #444;">Encrypted Communication Only</p>
+        <div class="opsec">✓ SECURITY VERIFIED</div>
+    </footer>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        let isPrivateMode = localStorage.getItem('privateMode') === 'true';
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.fillStyle = isPrivateMode ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+            
+            requestAnimationFrame(animateParticles);
+        }
+
+        // Mode Toggle
+        const modeToggle = document.getElementById('modeToggle');
+        const modeLabel = document.getElementById('modeLabel');
+
+        function initializeMode() {
+            if (isPrivateMode) {
+                document.body.classList.add('private-mode');
+                document.querySelector('nav').classList.add('private-mode');
+                modeToggle.classList.add('private');
+                modeLabel.textContent = 'PRIVATE';
+            }
+        }
+
+        modeToggle.addEventListener('click', () => {
+            isPrivateMode = !isPrivateMode;
+            localStorage.setItem('privateMode', isPrivateMode);
+            
+            document.body.classList.toggle('private-mode');
+            document.querySelector('nav').classList.toggle('private-mode');
+            modeToggle.classList.toggle('private');
+            modeLabel.textContent = isPrivateMode ? 'PRIVATE' : 'PUBLIC';
+            
+            // Reinitialize particles with new colors
+            initParticles();
+        });
+
+        // Collapsible sections
+        function toggleCollapsible(element) {
+            const content = element.nextElementSibling;
+            if (content.classList.contains('collapsible-content')) {
+                content.classList.toggle('active');
+            }
+        }
+
+        // Health Check Button
+        function performHealthCheck() {
+            const terminalLog = document.getElementById('terminalLog');
+            const timestamp = new Date().toLocaleString();
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            line.textContent = `[${timestamp}] Health check initiated... Status: ✓ All systems operational`;
+            terminalLog.appendChild(line);
+            terminalLog.parentElement.scrollTop = terminalLog.parentElement.scrollHeight;
+        }
+
+        // Copy Node Info
+        function copyNodeInfo() {
+            const nodeInfo = `WATCHTOWER :: SWAYZONE C2\nNode ID: PUB-001\nStatus: ONLINE / SECURE\nUptime: 99.9%\nNetwork Health: 98%`;
+            navigator.clipboard.writeText(nodeInfo).then(() => {
+                alert('Node information copied to clipboard!');
+            });
+        }
+
+        // Animate stats on load
+        function animateStats() {
+            const stats = [
+                { element: document.getElementById('uptime'), target: 99.9, suffix: '%' },
+                { element: document.getElementById('activeNodes'), target: 2847, suffix: '' },
+                { element: document.getElementById('requestsPerSec'), target: 1234, suffix: '' },
+                { element: document.getElementById('health'), target: 98, suffix: '%' }
+            ];
+
+            stats.forEach(stat => {
+                let current = 0;
+                const increment = stat.target / 50;
+                const interval = setInterval(() => {
+                    current += increment;
+                    if (current >= stat.target) {
+                        stat.element.textContent = stat.target.toLocaleString() + stat.suffix;
+                        clearInterval(interval);
+                    } else {
+                        stat.element.textContent = Math.floor(current).toLocaleString() + stat.suffix;
+                    }
+                }, 30);
+            });
+        }
+
+        // Window resize handler
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            initializeMode();
+            initParticles();
+            animateParticles();
+            animateStats();
+        });
+    </script>
 </body>
 </html>
