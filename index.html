@@ -39,8 +39,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent),
-                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%, transparent 77%, transparent);
+                linear-gradient(0deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%,[...]
+                linear-gradient(90deg, transparent 24%, rgba(0, 255, 0, 0.05) 25%, rgba(0, 255, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 0, 0.05) 75%, rgba(0, 255, 0, 0.05) 76%[...]
             background-size: 50px 50px;
             pointer-events: none;
             z-index: 1;
@@ -48,8 +48,8 @@
 
         body.private-mode::before {
             background-image: 
-                linear-gradient(0deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent),
-                linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%, transparent 77%, transparent);
+                linear-gradient(0deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%,[...]
+                linear-gradient(90deg, transparent 24%, rgba(255, 0, 0, 0.05) 25%, rgba(255, 0, 0, 0.05) 26%, transparent 27%, transparent 74%, rgba(255, 0, 0, 0.05) 75%, rgba(255, 0, 0, 0.05) 76%[...]
         }
 
         /* Help Modal */
@@ -510,11 +510,23 @@
             color: #00ff00;
             text-shadow: 0 0 10px #00ff00;
             letter-spacing: 0.1em;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-logo:hover {
+            color: #00ffff;
+            text-shadow: 0 0 10px #00ffff;
         }
 
         nav.private-mode .nav-logo {
             color: #ff0000;
             text-shadow: 0 0 10px #ff0000;
+        }
+
+        nav.private-mode .nav-logo:hover {
+            color: #ff6666;
+            text-shadow: 0 0 10px #ff6666;
         }
 
         .nav-links {
@@ -883,6 +895,7 @@
             background: linear-gradient(135deg, rgba(0, 30, 0, 0.6) 0%, rgba(10, 10, 10, 0.7) 100%);
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.15);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         body.private-mode .service-card {
@@ -978,7 +991,7 @@
         }
 
         /* Buttons */
-        button {
+        button, .nav-logo, a.featured-button {
             background: linear-gradient(135deg, #00ff00, #00ffaa);
             color: #0a0a0a;
             border: 2px solid #00ff00;
@@ -992,586 +1005,82 @@
             transition: all 0.3s ease;
             margin-top: 1rem;
             margin-right: 0.5rem;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        body.private-mode button {
+        body.private-mode button,
+        body.private-mode .nav-logo,
+        body.private-mode a.featured-button {
             background: linear-gradient(135deg, #ff0000, #ff6666);
             border-color: #ff0000;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.4);
+        button:hover, a.featured-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
         }
 
-        body.private-mode button:hover {
-            box-shadow: 0 5px 20px rgba(255, 0, 0, 0.4);
+        body.private-mode button:hover,
+        body.private-mode a.featured-button:hover {
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
         }
 
-        /* Collapsible Sections */
-        .collapsible {
-            cursor: pointer;
-            padding: 1rem;
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.1), rgba(0, 255, 255, 0.05));
-            border: 1px solid #00ff00;
-            border-radius: 4px;
-            color: #00ff00;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            transition: all 0.3s ease;
-        }
-
-        body.private-mode .collapsible {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.1), rgba(255, 100, 100, 0.05));
-            border-color: #ff0000;
-            color: #ff0000;
-        }
-
-        .collapsible:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2), rgba(0, 255, 255, 0.1));
-        }
-
-        body.private-mode .collapsible:hover {
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(255, 100, 100, 0.1));
-        }
-
-        .collapsible-content {
-            display: none;
-            padding: 1rem;
-            background: rgba(0, 10, 0, 0.5);
-            border-left: 2px solid #00ff00;
-            margin-left: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        body.private-mode .collapsible-content {
-            background: rgba(10, 0, 0, 0.5);
-            border-left-color: #ff0000;
-        }
-
-        .collapsible-content.active {
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 1rem 0;
-        }
-
-        .timeline-item {
-            padding: 1rem;
-            padding-left: 2rem;
-            position: relative;
-            border-left: 2px solid #00ff00;
-        }
-
-        body.private-mode .timeline-item {
-            border-left-color: #ff0000;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -6px;
-            top: 1.5rem;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #00ff00;
-        }
-
-        body.private-mode .timeline-item::before {
-            background: #ff0000;
-        }
-
-        .timeline-time {
-            color: #00ffff;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        body.private-mode .timeline-time {
-            color: #ff6666;
-        }
-
-        .timeline-event {
-            color: #00ff00;
-            margin-top: 0.5rem;
-        }
-
-        body.private-mode .timeline-event {
-            color: #ff0000;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 3rem;
-            text-align: center;
-            color: #555;
-            font-size: 0.85rem;
-            animation: fadeIn 1.2s ease-out 0.6s both;
-            padding: 2rem;
-            border-top: 1px solid rgba(0, 255, 0, 0.2);
-        }
-
-        body.private-mode footer {
-            border-top-color: rgba(255, 0, 0, 0.2);
-        }
-
-        .social-links {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .social-links a {
-            color: #00ff00;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        body.private-mode .social-links a {
-            color: #ff0000;
-        }
-
-        .social-links a:hover {
-            color: #00ffff;
-            text-shadow: 0 0 10px #00ffff;
-        }
-
-        body.private-mode .social-links a:hover {
-            color: #ff6666;
-            text-shadow: 0 0 10px #ff6666;
-        }
-
-        .opsec {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.8rem 1.2rem;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid #00ffff;
-            border-radius: 4px;
-            color: #00ffff;
-            font-weight: bold;
-            letter-spacing: 0.05em;
-            transition: all 0.5s ease;
-        }
-
-        body.private-mode .opsec {
-            background: rgba(255, 100, 100, 0.1);
-            border-color: #ff6666;
-            color: #ff6666;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .title {
-                font-size: 2rem;
-            }
-
-            .content {
-                padding: 1.5rem;
-            }
-
-            .nav-container {
-                gap: 1rem;
-            }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .terminal-panel {
-                width: 100%;
-            }
-
-            .command-palette {
-                min-width: 90vw;
-            }
-
-            .help-modal {
-                max-width: 90vw;
-            }
-        }
-
-        /* Glitch effect */
-        .title:hover {
-            animation: glitch 0.3s ease-in-out;
-        }
-
-        @keyframes glitch {
-            0%, 100% { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00; }
-            25% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 20px #00ffff; }
-            50% { text-shadow: -2px 2px 10px #ffff00, 2px -2px 20px #00ff00; }
-            75% { text-shadow: 2px -2px 10px #00ffff, -2px 2px 20px #ff00ff; }
-        }
-
-        body.private-mode .title:hover {
-            animation: glitch-private 0.3s ease-in-out;
-        }
-
-        @keyframes glitch-private {
-            0%, 100% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; }
-            25% { text-shadow: 2px 2px 10px #ff00ff, -2px -2px 20px #ff6666; }
-            50% { text-shadow: -2px 2px 10px #ffff00, 2px -2px 20px #ff0000; }
-            75% { text-shadow: 2px -2px 10px #ff6666, -2px 2px 20px #ff00ff; }
-        }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #00ff00;
-            border-radius: 5px;
-        }
-
-        body.private-mode ::-webkit-scrollbar-thumb {
-            background: #ff0000;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #00ffff;
-        }
-
-        body.private-mode ::-webkit-scrollbar-thumb:hover {
-            background: #ff6666;
-        }
-
-        /* Security Scan Animation */
-        .security-scan {
+        /* Featured Accomplishments Card */
+        .featured-card {
             border: 2px solid #00ff00;
             border-radius: 8px;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(10, 10, 10, 0.8) 100%);
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 20, 0, 0.7) 0%, rgba(0, 30, 0, 0.8) 100%);
+            box-shadow: 0 0 25px rgba(0, 255, 0, 0.3);
+            animation: fadeIn 1s ease-out 0.4s both;
             margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
+            text-align: center;
         }
 
-        body.private-mode .security-scan {
+        body.private-mode .featured-card {
             border-color: #ff0000;
-            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(10, 0, 10, 0.8) 100%);
+            background: linear-gradient(135deg, rgba(20, 0, 0, 0.7) 0%, rgba(30, 0, 0, 0.8) 100%);
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.3);
         }
 
-        .security-scan::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 0, 0.2), transparent);
-            animation: scan 3s infinite;
+        .featured-card h2 {
+            color: #00ffff;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        body.private-mode .security-scan::after {
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.2), transparent);
+        body.private-mode .featured-card h2 {
+            color: #ff6666;
         }
 
-        @keyframes scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        .security-scan-text {
-            position: relative;
-            z-index: 1;
+        .featured-card p {
             color: #00ff00;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
         }
 
-        body.private-mode .security-scan-text {
+        body.private-mode .featured-card p {
             color: #ff0000;
         }
     </style>
 </head>
 <body>
-    <!-- Help Backdrop -->
-    <div class="help-backdrop" id="helpBackdrop" onclick="closeHelp()"></div>
-
-    <!-- Help Modal -->
-    <div class="help-modal" id="helpModal">
-        <span class="help-close" onclick="closeHelp()">✕</span>
-        <h1 class="help-title">📖 QUICK REFERENCE MANUAL</h1>
-
-        <!-- Keyboard Shortcuts -->
-        <div class="help-section">
-            <h2 class="help-section-title">⌨️ KEYBOARD SHORTCUTS</h2>
-            
-            <div class="help-item">
-                <div class="help-shortcut">Ctrl + /</div>
-                <div class="help-description">Open Command Palette - Search and execute commands instantly</div>
-                <div class="help-note">Type your query and press Enter or click a suggestion</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Escape</div>
-                <div class="help-description">Close Command Palette or Help Modal</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Arrow Up / Down</div>
-                <div class="help-description">Navigate command history in Command Palette</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">↑ ↑ ↓ ↓ ← → ← → B A</div>
-                <div class="help-description">KONAMI CODE - Activates secret features and Matrix Rain!</div>
-                <div class="help-note">This is a classic easter egg - try it!</div>
-            </div>
-        </div>
-
-        <!-- Terminal Commands -->
-        <div class="help-section">
-            <h2 class="help-section-title">💻 TERMINAL COMMANDS</h2>
-
-            <div class="help-item">
-                <div class="help-shortcut">help</div>
-                <div class="help-description">Display all available commands</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">time</div>
-                <div class="help-description">Show current system time and date</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">status</div>
-                <div class="help-description">Display detailed system status report</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">clear</div>
-                <div class="help-description">Clear terminal output</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">morse</div>
-                <div class="help-description">Encode text to Morse code (you'll be prompted for input)</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">ascii</div>
-                <div class="help-description">Generate random ASCII art banner</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">encrypt</div>
-                <div class="help-description">Show current encryption status and protocols</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">scan</div>
-                <div class="help-description">Run a security system scan (simulated)</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">matrix</div>
-                <div class="help-description">Toggle Matrix Rain effect - falling code animation</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">locations</div>
-                <div class="help-description">Show visitor heat map by geographic location</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">export</div>
-                <div class="help-description">Export system logs to CSV file</div>
-            </div>
-        </div>
-
-        <!-- Buttons & Controls -->
-        <div class="help-section">
-            <h2 class="help-section-title">🔘 ON-PAGE BUTTONS</h2>
-
-            <div class="help-item">
-                <div class="help-shortcut">⚕ Perform Health Check</div>
-                <div class="help-description">Run system diagnostics and health tests</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">📋 Copy Node Info</div>
-                <div class="help-description">Copy node details to clipboard</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">🎬 Toggle Hologram</div>
-                <div class="help-description">Enable/disable hologram scanline effect</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">🌧 Matrix Rain</div>
-                <div class="help-description">Start animated falling code effect</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">🎚 PUBLIC/PRIVATE Toggle</div>
-                <div class="help-description">Switch between public (green) and private (red) mode - persists in browser</div>
-            </div>
-        </div>
-
-        <!-- Interface Elements -->
-        <div class="help-section">
-            <h2 class="help-section-title">🎨 INTERFACE ELEMENTS</h2>
-
-            <div class="help-item">
-                <div class="help-shortcut">📊 Real-Time Charts</div>
-                <div class="help-description">View live CPU, Memory, and Network graphs - updates dynamically</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">🎞️ Terminal Panel</div>
-                <div class="help-description">Bottom-right terminal for live command execution. Click underscore (_) to collapse/expand</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">⏰ Live Clock</div>
-                <div class="help-description">Top navigation shows real-time clock (updates every second)</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">👥 Visitor Counter</div>
-                <div class="help-description">Tracks unique visitors - increments periodically</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">📜 Collapsible Sections</div>
-                <div class="help-description">Click any section header to expand/collapse for more details</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">🎪 Particle Effects</div>
-                <div class="help-description">Background particles animate continuously (green in public, red in private)</div>
-            </div>
-        </div>
-
-        <!-- Tips & Tricks -->
-        <div class="help-section">
-            <h2 class="help-section-title">💡 TIPS & TRICKS</h2>
-
-            <div class="help-item">
-                <div class="help-shortcut">Access Command Palette Anywhere</div>
-                <div class="help-description">Press Ctrl+/ from anywhere on the page to instantly open the command search</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Persistent Settings</div>
-                <div class="help-description">Your PUBLIC/PRIVATE mode preference is saved in browser storage and persists across sessions</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Try Combining Effects</div>
-                <div class="help-description">Enable hologram effect + matrix rain for an immersive experience!</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Browser Console</div>
-                <div class="help-description">Open DevTools (F12) and check the console for special messages and easter eggs</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Interactive Terminal</div>
-                <div class="help-description">Use the bottom-right terminal panel to run commands without opening the palette</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">Command History</div>
-                <div class="help-description">In Command Palette, use Arrow Up/Down to browse your previous commands</div>
-            </div>
-        </div>
-
-        <!-- Quick Start -->
-        <div class="help-section">
-            <h2 class="help-section-title">🚀 QUICK START</h2>
-
-            <div class="help-item">
-                <div class="help-shortcut">1. Explore Commands</div>
-                <div class="help-description">Press Ctrl+/ and type "help" to see all available commands</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">2. Try Shortcuts</div>
-                <div class="help-description">Try "ascii", "status", or "morse" commands to see what the system can do</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">3. Toggle Effects</div>
-                <div class="help-description">Click "🎬 Toggle Hologram" and "🌧 Matrix Rain" buttons for visual effects</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">4. Switch Modes</div>
-                <div class="help-description">Toggle between PUBLIC and PRIVATE modes to change the entire color scheme</div>
-            </div>
-
-            <div class="help-item">
-                <div class="help-shortcut">5. Unlock Easter Egg</div>
-                <div class="help-description">Try the Konami Code (↑↑↓↓←→←→BA) for a special surprise!</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Hologram Overlay -->
-    <div class="hologram-overlay"></div>
-
-    <!-- Particle Canvas -->
-    <canvas id="particles"></canvas>
-
-    <!-- Matrix Rain Canvas -->
-    <canvas id="matrix"></canvas>
-
-    <!-- Command Palette -->
-    <div class="command-palette" id="commandPalette">
-        <input type="text" id="commandInput" placeholder="$ Type a command... (help for list)">
-        <div class="command-list" id="commandList"></div>
-    </div>
-
-    <!-- Terminal Panel -->
-    <div class="terminal-panel" id="terminalPanel">
-        <div class="terminal-header">
-            <span class="terminal-title">$ INTERACTIVE TERMINAL</span>
-            <span class="terminal-minimize" onclick="toggleTerminal()">_</span>
-        </div>
-        <div class="terminal-output" id="terminalOutput"></div>
-        <div style="padding: 0.8rem; border-top: 1px solid #00ff00; display: flex;">
-            <span class="terminal-prompt">$</span>
-            <input type="text" class="terminal-input-field" id="terminalInput" placeholder="Enter command...">
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <nav>
+    <nav id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">⚡ WATCHTOWER</div>
+            <a href="index.html" class="nav-logo">⚡ WATCHTOWER</a>
             <ul class="nav-links">
-                <li><a href="#status">Status</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#docs">Docs</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a onclick="openHelp()">❓ Help</a></li>
+                <li><a href="index.html">Command Center</a></li>
+                <li><a href="accomplishments.html">Accomplishments</a></li>
             </ul>
             <div class="nav-info">
-                <div class="live-clock" id="liveClock">00:00:00</div>
-                <div class="visitor-count">👥 Visitors: <span id="visitorCount">1,234</span></div>
+                <div class="live-clock" id="clock"></div>
+                <div class="visitor-count">⚡ ACTIVE</div>
                 <div class="mode-toggle">
-                    <span class="mode-label" id="modeLabel">PUBLIC</span>
+                    <span class="mode-label" id="modeLabel">Public</span>
                     <div class="toggle-switch" id="modeToggle">
                         <div class="toggle-slider"></div>
                     </div>
@@ -1580,203 +1089,196 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
         <header>
-            <h1 class="title">⚡ WATCHTOWER</h1>
-            <p class="subtitle">SWAYZONE C2 NODE</p>
-            <div class="ascii-art" id="asciiArt"></div>
-            <p class="tagline">Public-Facing Telemetry Node</p>
+            <h1 class="title">WATCHTOWER C2</h1>
+            <p class="subtitle">Public Telemetry & Routing Node</p>
+            <p class="tagline">Advanced Command Center Interface</p>
         </header>
 
-        <!-- Dashboard Stats -->
+        <!-- Featured Accomplishments Section -->
+        <div class="featured-card">
+            <h2>📊 Technical Accomplishments</h2>
+            <p>Explore comprehensive technical achievements, institutional authority credentials, and proven expertise across multiple domains including systems architecture, security & compliance, data engineering, and more.</p>
+            <a href="accomplishments.html" class="featured-button">📋 View Full Report</a>
+        </div>
+
+        <!-- Status Dashboard -->
         <div class="dashboard">
             <div class="stat-card">
-                <div class="stat-label">Uptime</div>
-                <div class="stat-value" id="uptime">99.9%</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Active Nodes</div>
-                <div class="stat-value" id="activeNodes">2,847</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Requests/s</div>
-                <div class="stat-value" id="requestsPerSec">1,234</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Network Health</div>
-                <div class="stat-value" id="health">98%</div>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div class="charts-grid">
-            <div class="chart-card">
-                <h3 style="color: #00ffff; margin-bottom: 1rem;">CPU Usage (%)</h3>
-                <canvas id="cpuChart"></canvas>
-            </div>
-            <div class="chart-card">
-                <h3 style="color: #00ffff; margin-bottom: 1rem;">Memory Usage (GB)</h3>
-                <canvas id="memoryChart"></canvas>
-            </div>
-            <div class="chart-card">
-                <h3 style="color: #00ffff; margin-bottom: 1rem;">Network Traffic (Mbps)</h3>
-                <canvas id="networkChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="content" id="status">
-            <div class="status-line">
-                <div>
-                    <span class="status">STATUS:</span>
-                    <span class="status-badge secure active">● ONLINE / SECURE</span>
-                </div>
-                <div class="status-badge">Node ID: PUB-001</div>
-            </div>
-
-            <section class="info-section">
-                <div class="info-label">> SYSTEM AUTHENTICATION</div>
-                <div class="info-text">This node is an authorized intelligence terminal.<br>Unauthorized access attempts are logged and blackholed.</div>
-            </section>
-
-            <section class="info-section">
-                <div class="info-label">> OPERATIONAL SECURITY</div>
-                <div class="info-text">Strict Sovereignty Framework Active</div>
-            </section>
-
-            <section class="info-section">
-                <div class="info-label">> VERIFICATION STATUS</div>
-                <div class="status-badge secure" style="display: block; width: fit-content;">
-                    ✓ OPSEC MASKING: VERIFIED
-                </div>
-            </section>
-
-            <button onclick="performHealthCheck()">⚕ Perform Health Check</button>
-            <button onclick="copyNodeInfo()">📋 Copy Node Info</button>
-            <button onclick="toggleHologram()">🎬 Toggle Hologram</button>
-            <button onclick="startMatrixRain()">🌧 Matrix Rain</button>
-        </main>
-
-        <!-- Security Scan Section -->
-        <div class="security-scan">
-            <div class="security-scan-text">
-                <strong>🔒 SECURITY SCAN</strong><br>
-                <span id="scanStatus">Scanning system integrity... [████████░░] 85%</span>
-            </div>
-        </div>
-
-        <!-- Services Section -->
-        <section id="services" class="cards-grid" style="margin-top: 2rem;">
-            <div class="service-card">
-                <div class="service-icon">🔒</div>
-                <div class="service-title">API Gateway</div>
-                <div class="service-status"><span class="status-dot"></span>Online</div>
-            </div>
-            <div class="service-card">
-                <div class="service-icon">📊</div>
-                <div class="service-title">Database</div>
+                <div class="stat-label">System Status</div>
+                <div class="stat-value" id="statusValue">ONLINE</div>
                 <div class="service-status"><span class="status-dot"></span>Operational</div>
             </div>
-            <div class="service-card">
-                <div class="service-icon">🔄</div>
-                <div class="service-title">Sync Service</div>
-                <div class="service-status"><span class="status-dot"></span>Active</div>
+            <div class="stat-card">
+                <div class="stat-label">Network Nodes</div>
+                <div class="stat-value" id="nodesCount">12</div>
+                <div class="service-status"><span class="status-dot"></span>Connected</div>
             </div>
-            <div class="service-card">
-                <div class="service-icon">📡</div>
-                <div class="service-title">Telemetry</div>
-                <div class="service-status"><span class="status-dot"></span>Running</div>
+            <div class="stat-card">
+                <div class="stat-label">Data Processed</div>
+                <div class="stat-value">1.4TB+</div>
+                <div class="service-status"><span class="status-dot"></span>Flowing</div>
             </div>
-        </section>
-
-        <!-- Terminal Log -->
-        <div class="terminal">
-            <div class="terminal-label">> SYSTEM LOG</div>
-            <div id="terminalLog">
-                <div class="terminal-line">[2026-07-26 21:30:15] System initialized</div>
-                <div class="terminal-line">[2026-07-26 21:30:16] Security framework verified</div>
-                <div class="terminal-line">[2026-07-26 21:30:17] Node ID: PUB-001 registered</div>
-                <div class="terminal-line">[2026-07-26 21:30:18] OPSEC masking engaged</div>
-                <div class="terminal-line">[2026-07-26 21:30:20] All systems operational</div>
+            <div class="stat-card">
+                <div class="stat-label">Security Level</div>
+                <div class="stat-value secure">●●●●●</div>
+                <div class="service-status"><span class="status-dot"></span>Encrypted</div>
             </div>
         </div>
 
-        <!-- Collapsible Sections -->
-        <div class="collapsible" onclick="toggleCollapsible(this)">📚 API ENDPOINTS</div>
-        <div class="collapsible-content">
-            <div class="terminal-line">POST /api/v1/authenticate</div>
-            <div class="terminal-line">GET /api/v1/status</div>
-            <div class="terminal-line">GET /api/v1/nodes</div>
-            <div class="terminal-line">POST /api/v1/telemetry</div>
-        </div>
+        <!-- Content Section -->
+        <div class="content">
+            <div class="status-line">
+                <div class="status active">◆ SYSTEM OPERATIONAL</div>
+                <div class="status-badge">SECURE</div>
+            </div>
 
-        <div class="collapsible" onclick="toggleCollapsible(this)">⚙️ TECHNICAL SPECS</div>
-        <div class="collapsible-content">
-            <div class="terminal-line">CPU: 8 vCores | RAM: 32GB | Storage: 2TB SSD</div>
-            <div class="terminal-line">Uptime: 437 days | Load Avg: 0.42</div>
-            <div class="terminal-line">Network: 10Gbps | Bandwidth Used: 2.3Tbps</div>
-        </div>
+            <h2 style="color: #00ffff; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.1em;">Active Services</h2>
 
-        <!-- Timeline -->
-        <div style="margin-top: 2rem;">
-            <h2 style="color: #00ffff; margin-bottom: 1rem; letter-spacing: 0.1em;">📜 RECENT UPDATES</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-time">2026-07-26 14:32</div>
-                    <div class="timeline-event">System upgrade completed successfully</div>
+            <div class="cards-grid">
+                <div class="service-card">
+                    <div class="service-icon">🔧</div>
+                    <div class="service-title">Infrastructure</div>
+                    <div class="service-status"><span class="status-dot"></span>Operational</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">2026-07-25 08:15</div>
-                    <div class="timeline-event">Security patches deployed across all nodes</div>
+
+                <div class="service-card">
+                    <div class="service-icon">🛡️</div>
+                    <div class="service-title">Security</div>
+                    <div class="service-status"><span class="status-dot"></span>Secure</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">2026-07-24 19:45</div>
-                    <div class="timeline-event">Network optimization round-trip time reduced by 23%</div>
+
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <div class="service-title">Analytics</div>
+                    <div class="service-status"><span class="status-dot"></span>Active</div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-time">2026-07-23 11:20</div>
-                    <div class="timeline-event">Database replication synchronization achieved 99.99% consistency</div>
+
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <div class="service-title">Deployment</div>
+                    <div class="service-status"><span class="status-dot"></span>Ready</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <div class="service-title">Performance</div>
+                    <div class="service-status"><span class="status-dot"></span>Optimized</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🔗</div>
+                    <div class="service-title">Integration</div>
+                    <div class="service-status"><span class="status-dot"></span>Connected</div>
                 </div>
             </div>
-        </div>
 
-        <!-- Documentation Section -->
-        <div id="docs" class="collapsible" onclick="toggleCollapsible(this)" style="margin-top: 2rem;">📖 DOCUMENTATION</div>
-        <div class="collapsible-content">
-            <div class="terminal-line"><strong>Getting Started:</strong></div>
-            <div class="terminal-line">1. Authenticate with provided credentials</div>
-            <div class="terminal-line">2. Initialize secure connection tunnel</div>
-            <div class="terminal-line">3. Configure telemetry parameters</div>
-            <div class="terminal-line">4. Begin data transmission</div>
-            <br>
-            <div class="terminal-line"><strong>Security:</strong> All communications use end-to-end encryption</div>
-            <div class="terminal-line"><strong>Support:</strong> Contact ops@watchtower.local for assistance</div>
-        </div>
-
-        <!-- Contact Section -->
-        <div id="contact" style="margin-top: 2rem; padding: 1.5rem; border: 2px solid #00ff00; border-radius: 8px; background: rgba(0, 20, 0, 0.5);">
-            <h2 style="color: #00ffff; margin-bottom: 1rem;">📬 GET IN TOUCH</h2>
-            <div class="social-links">
-                <a href="#">Discord</a>
-                <a href="#">Twitter</a>
-                <a href="#">GitHub</a>
-                <a href="#">Email</a>
+            <div class="terminal">
+                <div class="terminal-label">> SYSTEM LOG</div>
+                <div class="terminal-line">[00:00:00] WATCHTOWER COMMAND CENTER INITIALIZED</div>
+                <div class="terminal-line">[00:00:01] Network interfaces: ACTIVE</div>
+                <div class="terminal-line">[00:00:02] Security protocols: ENGAGED</div>
+                <div class="terminal-line">[00:00:03] Data pipeline: FLOWING</div>
+                <div class="terminal-line">[00:00:04] All systems: NOMINAL</div>
+                <div class="terminal-line">[00:00:05] >>> Ready for operations</div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>Watchtower SwayZone © 2026 | All Rights Reserved</p>
-        <p style="margin-top: 0.5rem; color: #444;">Encrypted Communication Only</p>
-        <div class="opsec">✓ SECURITY VERIFIED</div>
-    </footer>
+    <div id="helpBackdrop" class="help-backdrop"></div>
+    <div id="helpModal" class="help-modal">
+        <div class="help-close" onclick="closeHelp()">✕</div>
+        <div class="help-title">SYSTEM HELP</div>
+        
+        <div class="help-section">
+            <div class="help-section-title">Navigation</div>
+            <div class="help-item">
+                <div class="help-shortcut">Command Center</div>
+                <div class="help-description">Main dashboard and system status monitoring interface</div>
+            </div>
+            <div class="help-item">
+                <div class="help-shortcut">Accomplishments</div>
+                <div class="help-description">Technical achievements and professional credentials report</div>
+            </div>
+        </div>
+
+        <div class="help-section">
+            <div class="help-section-title">Keyboard Shortcuts</div>
+            <div class="help-item">
+                <div class="help-shortcut">M</div>
+                <div class="help-description">Toggle between Public and Private mode</div>
+            </div>
+            <div class="help-item">
+                <div class="help-shortcut">?</div>
+                <div class="help-description">Show this help menu</div>
+            </div>
+            <div class="help-item">
+                <div class="help-shortcut">Ctrl+K</div>
+                <div class="help-description">Open command palette</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hologramOverlay" class="hologram-overlay"></div>
+    <canvas id="particles"></canvas>
+    <canvas id="matrix"></canvas>
+    <div id="commandPalette" class="command-palette">
+        <input type="text" id="commandInput" placeholder="Enter command..." />
+        <div class="command-list" id="commandList"></div>
+    </div>
+    <div class="terminal-panel" id="terminalPanel">
+        <div class="terminal-header">
+            <div class="terminal-title">TERMINAL</div>
+            <div class="terminal-minimize" onclick="toggleTerminal()">_</div>
+        </div>
+        <div class="terminal-output" id="terminalOutput"></div>
+        <div style="display: flex; padding: 0.5rem; border-top: 1px solid #00ff00;">
+            <span class="terminal-prompt">$</span>
+            <input type="text" class="terminal-input-field" id="terminalInput" placeholder="Enter command..." />
+        </div>
+    </div>
 
     <script>
-        // ==========================================
-        // HELP MODAL
-        // ==========================================
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Mode toggle
+        const modeToggle = document.getElementById('modeToggle');
+        const modeLabel = document.getElementById('modeLabel');
+        const body = document.body;
+        const nav = document.querySelector('nav');
+        let isPrivateMode = false;
+
+        modeToggle.addEventListener('click', () => {
+            isPrivateMode = !isPrivateMode;
+            body.classList.toggle('private-mode');
+            nav.classList.toggle('private-mode');
+            modeLabel.textContent = isPrivateMode ? 'Private' : 'Public';
+            localStorage.setItem('privateMode', isPrivateMode);
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'm' || e.key === 'M') {
+                modeToggle.click();
+            }
+            if (e.key === '?') {
+                toggleHelp();
+            }
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                toggleCommandPalette();
+            }
+        });
+
+        // Help modal
         function openHelp() {
             document.getElementById('helpModal').classList.add('active');
             document.getElementById('helpBackdrop').classList.add('active');
@@ -1787,603 +1289,22 @@
             document.getElementById('helpBackdrop').classList.remove('active');
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeHelp();
-            }
-        });
-
-        // ==========================================
-        // INITIALIZATION & GLOBAL STATE
-        // ==========================================
-        let isPrivateMode = localStorage.getItem('privateMode') === 'true';
-        let particles = [];
-        let charts = {};
-        let visitorCount = parseInt(localStorage.getItem('visitorCount')) || 1234;
-        let commandHistory = [];
-        let historyIndex = 0;
-
-        const commands = {
-            'help': { description: 'Show all available commands', fn: showHelp },
-            'time': { description: 'Show current time', fn: showTime },
-            'clear': { description: 'Clear terminal', fn: clearTerminal },
-            'status': { description: 'Show system status', fn: showSystemStatus },
-            'morse': { description: 'Encode text to morse code', fn: openMorse },
-            'ascii': { description: 'Generate random ASCII art', fn: generateASCII },
-            'encrypt': { description: 'Show encryption status', fn: showEncryption },
-            'scan': { description: 'Run security scan', fn: runSecurityScan },
-            'matrix': { description: 'Start matrix rain effect', fn: startMatrixRain },
-            'locations': { description: 'Show visitor heat map', fn: showLocations },
-            'export': { description: 'Export system logs', fn: exportLogs },
-            'konami': { description: 'Secret code activated!', fn: konamiCode }
-        };
-
-        // ==========================================
-        // PARTICLES & ANIMATIONS
-        // ==========================================
-        class Particle {
-            constructor() {
-                this.x = Math.random() * innerWidth;
-                this.y = Math.random() * innerHeight;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-            }
-
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x > innerWidth) this.x = 0;
-                if (this.x < 0) this.x = innerWidth;
-                if (this.y > innerHeight) this.y = 0;
-                if (this.y < 0) this.y = innerHeight;
-            }
-
-            draw(ctx) {
-                ctx.fillStyle = isPrivateMode ? 'rgba(255, 0, 0, 0.5)' : 'rgba(0, 255, 0, 0.5)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+        function toggleHelp() {
+            document.getElementById('helpModal').classList.toggle('active');
+            document.getElementById('helpBackdrop').classList.toggle('active');
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
-            }
-        }
+        document.getElementById('helpBackdrop').addEventListener('click', closeHelp);
 
-        function animateParticles() {
-            const canvas = document.getElementById('particles');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            for (let particle of particles) {
-                particle.update();
-                particle.draw(ctx);
-            }
-            requestAnimationFrame(animateParticles);
-        }
-
-        // ==========================================
-        // MODE TOGGLE
-        // ==========================================
-        function initializeMode() {
-            if (isPrivateMode) {
-                document.body.classList.add('private-mode');
-                document.querySelector('nav').classList.add('private-mode');
-                document.getElementById('modeToggle').classList.add('private');
-                document.getElementById('modeLabel').textContent = 'PRIVATE';
-            }
-        }
-
-        document.getElementById('modeToggle').addEventListener('click', () => {
-            isPrivateMode = !isPrivateMode;
-            localStorage.setItem('privateMode', isPrivateMode);
-            
-            document.body.classList.toggle('private-mode');
-            document.querySelector('nav').classList.toggle('private-mode');
-            document.getElementById('modeToggle').classList.toggle('private');
-            document.getElementById('modeLabel').textContent = isPrivateMode ? 'PRIVATE' : 'PUBLIC';
-            
-            initParticles();
-            updateCharts();
-        });
-
-        // ==========================================
-        // LIVE CLOCK
-        // ==========================================
-        function updateClock() {
-            const now = new Date();
-            const time = now.toLocaleTimeString('en-US', { hour12: false });
-            document.getElementById('liveClock').textContent = time;
-        }
-
-        setInterval(updateClock, 1000);
-
-        // ==========================================
-        // VISITOR COUNTER
-        // ==========================================
-        function updateVisitorCount() {
-            visitorCount += Math.floor(Math.random() * 5);
-            localStorage.setItem('visitorCount', visitorCount);
-            document.getElementById('visitorCount').textContent = visitorCount.toLocaleString();
-        }
-
-        setInterval(updateVisitorCount, 15000);
-
-        // ==========================================
-        // ASCII ART
-        // ==========================================
-        const asciiArtCollection = [
-            ` _____ __________________  _____ 
-|     |                    |/     |
-| _   |   WATCHTOWER       |   _  |
-||_|  |                    |  |_| |
-|     |____________________|     |
- \\___/                      \\___/ `,
-            ` [#################------] 85% ONLINE `,
-            `  ⚡  ACTIVE  ⚡  SECURE  ⚡  ONLINE  ⚡ `,
-            ` ╔════════════════════════╗
- ║    SWAYZONE NODE         ║
- ║    [ ● OPERATIONAL ]     ║
- ╚════════════════════════╝ `,
-            ` █▀█ █▀▄ █▀▀ █─█ 
- █─█ █─█ █── █▀▄ 
- ▀─▀ ▀▀─ ▀▀▀ ▀─▀ `
-        ];
-
-        function generateASCII() {
-            const art = asciiArtCollection[Math.floor(Math.random() * asciiArtCollection.length)];
-            document.getElementById('asciiArt').textContent = art;
-            typeText(`Generated new ASCII art`, 'terminalOutput');
-        }
-
-        generateASCII();
-
-        // ==========================================
-        // TYPING EFFECT
-        // ==========================================
-        function typeText(text, elementId, speed = 50) {
-            const element = document.getElementById(elementId);
-            if (!element) return;
-            
-            let i = 0;
-            element.textContent = '';
-            
-            function type() {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-
-        // ==========================================
-        // CHARTS
-        // ==========================================
-        function initCharts() {
-            const chartColor = isPrivateMode ? '#ff0000' : '#00ff00';
-            const gridColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
-            const textColor = isPrivateMode ? '#ff6666' : '#00ffff';
-
-            const chartOptions = {
-                responsive: true,
-                maintainAspectRatio: true,
-                plugins: {
-                    legend: {
-                        labels: { color: textColor }
-                    }
-                },
-                scales: {
-                    y: {
-                        grid: { color: gridColor },
-                        ticks: { color: textColor }
-                    },
-                    x: {
-                        grid: { color: gridColor },
-                        ticks: { color: textColor }
-                    }
-                }
-            };
-
-            // CPU Chart
-            const cpuCtx = document.getElementById('cpuChart');
-            charts.cpu = new Chart(cpuCtx, {
-                type: 'line',
-                data: {
-                    labels: Array.from({length: 12}, (_, i) => i),
-                    datasets: [{
-                        label: 'CPU %',
-                        data: Array.from({length: 12}, () => Math.random() * 100),
-                        borderColor: chartColor,
-                        backgroundColor: isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4
-                    }]
-                },
-                options: chartOptions
-            });
-
-            // Memory Chart
-            const memCtx = document.getElementById('memoryChart');
-            charts.memory = new Chart(memCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Used', 'Free'],
-                    datasets: [{
-                        label: 'GB',
-                        data: [24, 8],
-                        backgroundColor: [chartColor, gridColor],
-                        borderColor: chartColor,
-                        borderWidth: 2
-                    }]
-                },
-                options: chartOptions
-            });
-
-            // Network Chart
-            const netCtx = document.getElementById('networkChart');
-            charts.network = new Chart(netCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Incoming', 'Outgoing'],
-                    datasets: [{
-                        data: [65, 35],
-                        backgroundColor: [chartColor, gridColor],
-                        borderColor: isPrivateMode ? '#1a0a1a' : '#0a0a0a',
-                        borderWidth: 2
-                    }]
-                },
-                options: chartOptions
-            });
-        }
-
-        function updateCharts() {
-            const chartColor = isPrivateMode ? '#ff0000' : '#00ff00';
-            const gridColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
-
-            if (charts.cpu) {
-                charts.cpu.data.datasets[0].borderColor = chartColor;
-                charts.cpu.data.datasets[0].backgroundColor = isPrivateMode ? 'rgba(255, 0, 0, 0.1)' : 'rgba(0, 255, 0, 0.1)';
-                charts.cpu.update();
-            }
-            if (charts.memory) {
-                charts.memory.data.datasets[0].backgroundColor = [chartColor, gridColor];
-                charts.memory.data.datasets[0].borderColor = chartColor;
-                charts.memory.update();
-            }
-            if (charts.network) {
-                charts.network.data.datasets[0].backgroundColor = [chartColor, gridColor];
-                charts.network.data.datasets[0].borderColor = isPrivateMode ? '#1a0a1a' : '#0a0a0a';
-                charts.network.update();
-            }
-        }
-
-        // ==========================================
-        // COMMAND PALETTE
-        // ==========================================
-        const commandInput = document.getElementById('commandInput');
-        const commandPalette = document.getElementById('commandPalette');
-        const commandList = document.getElementById('commandList');
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === '/' && e.ctrlKey) {
-                e.preventDefault();
-                commandPalette.classList.toggle('active');
-                commandInput.focus();
-            }
-            if (e.key === 'Escape') {
-                commandPalette.classList.remove('active');
-            }
-        });
-
-        commandInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const cmd = commandInput.value.trim().toLowerCase();
-                commandHistory.push(cmd);
-                historyIndex = commandHistory.length;
-                
-                if (commands[cmd]) {
-                    commands[cmd].fn();
-                } else {
-                    addTerminalLine(`Unknown command: ${cmd}. Type 'help' for available commands.`);
-                }
-                
-                commandInput.value = '';
-                updateCommandList();
-            }
-            if (e.key === 'ArrowUp') {
-                historyIndex = Math.max(0, historyIndex - 1);
-                commandInput.value = commandHistory[historyIndex] || '';
-            }
-            if (e.key === 'ArrowDown') {
-                historyIndex = Math.min(commandHistory.length, historyIndex + 1);
-                commandInput.value = commandHistory[historyIndex] || '';
-            }
-        });
-
-        commandInput.addEventListener('input', updateCommandList);
-
-        function updateCommandList() {
-            const value = commandInput.value.toLowerCase();
-            const filtered = Object.keys(commands).filter(cmd => cmd.includes(value));
-            
-            commandList.innerHTML = filtered.map(cmd => 
-                `<div class="command-item">${cmd}<span class="command-description">${commands[cmd].description}</span></div>`
-            ).join('');
-        }
-
-        // ==========================================
-        // TERMINAL COMMANDS
-        // ==========================================
-        function addTerminalLine(text) {
-            const terminalOutput = document.getElementById('terminalOutput');
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            line.textContent = `$ ${text}`;
-            terminalOutput.appendChild(line);
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
-        }
-
-        function showHelp() {
-            openHelp();
-        }
-
-        function showTime() {
-            addTerminalLine(`Current time: ${new Date().toLocaleString()}`);
-        }
-
-        function clearTerminal() {
-            document.getElementById('terminalOutput').innerHTML = '';
-        }
-
-        function showSystemStatus() {
-            const status = `
-System Status Report:
-- Uptime: 437 days
-- CPU Usage: ${Math.floor(Math.random() * 100)}%
-- Memory: 24/32 GB
-- Network: 2.3Tbps
-- Nodes Active: 2,847
-- Security: ✓ Verified
-            `;
-            addTerminalLine(status);
-        }
-
-        function openMorse() {
-            const text = prompt('Enter text to encode to Morse code:');
-            if (!text) return;
-            
-            const morseMap = {
-                'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
-                'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
-                'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
-                'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-                'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
-                '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
-                '8': '---..', '9': '----.', '.': '.-.-.-', ',': '--..--'
-            };
-            
-            const morse = text.toUpperCase().split('').map(c => morseMap[c] || c).join(' ');
-            addTerminalLine(`Morse: ${morse}`);
-        }
-
-        function showEncryption() {
-            addTerminalLine('Encryption Status: AES-256-GCM ✓ Active');
-            addTerminalLine('TLS 1.3 ✓ Verified');
-            addTerminalLine('Key Exchange: ECDHE ✓ Secure');
-        }
-
-        function runSecurityScan() {
-            addTerminalLine('Running security scan...');
-            setTimeout(() => addTerminalLine('✓ All systems secure'), 1000);
-        }
-
-        function showLocations() {
-            addTerminalLine('Generating visitor heat map...');
-            setTimeout(() => addTerminalLine('Top locations: US (45%), EU (30%), ASIA (20%), OTHER (5%)'), 500);
-        }
-
-        function exportLogs() {
-            addTerminalLine('Exporting logs to CSV...');
-            setTimeout(() => addTerminalLine('✓ logs_export.csv (2.3 MB)'), 500);
-        }
-
-        function konamiCode() {
-            addTerminalLine('🎮 KONAMI CODE ACTIVATED! 🎮');
-            addTerminalLine('████████████████████ 100% UNLOCKED');
-            addTerminalLine('Access all secret features!');
-            startMatrixRain();
-        }
-
-        // ==========================================
-        // MATRIX RAIN
-        // ==========================================
-        function startMatrixRain() {
-            const canvas = document.getElementById('matrix');
-            canvas.classList.toggle('active');
-            
-            if (!canvas.classList.contains('active')) return;
-            
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const ctx = canvas.getContext('2d');
-            
-            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘ���マミムメモヤユヨラリルレロワヲン';
-            const columns = Math.floor(canvas.width / 20);
-            const drops = Array(columns).fill(0);
-            
-            function draw() {
-                ctx.fillStyle = isPrivateMode ? 'rgba(26, 10, 10, 0.1)' : 'rgba(10, 26, 10, 0.1)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                ctx.fillStyle = isPrivateMode ? '#ff0000' : '#00ff00';
-                ctx.font = '20px monospace';
-                
-                for (let i = 0; i < drops.length; i++) {
-                    const text = chars[Math.floor(Math.random() * chars.length)];
-                    ctx.fillText(text, i * 20, drops[i] * 20);
-                    
-                    if (drops[i] * 20 > canvas.height && Math.random() > 0.95) {
-                        drops[i] = 0;
-                    }
-                    drops[i]++;
-                }
-            }
-            
-            const interval = setInterval(() => {
-                if (!canvas.classList.contains('active')) {
-                    clearInterval(interval);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                } else {
-                    draw();
-                }
-            }, 50);
-        }
-
-        // ==========================================
-        // HOLOGRAM EFFECT
-        // ==========================================
-        function toggleHologram() {
-            document.querySelector('.hologram-overlay').classList.toggle('active');
-        }
-
-        // ==========================================
-        // BUTTON FUNCTIONS
-        // ==========================================
-        function performHealthCheck() {
-            const timestamp = new Date().toLocaleString();
-            addTerminalLine(`Health check initiated at ${timestamp}`);
-            setTimeout(() => {
-                addTerminalLine('✓ All systems operational');
-                addTerminalLine('✓ Network latency: 2.3ms');
-                addTerminalLine('✓ Database sync: 99.99%');
-            }, 1000);
-        }
-
-        function copyNodeInfo() {
-            const nodeInfo = `WATCHTOWER :: SWAYZONE C2\nNode ID: PUB-001\nStatus: ONLINE / SECURE\nUptime: 99.9%\nNetwork Health: 98%`;
-            navigator.clipboard.writeText(nodeInfo).then(() => {
-                alert('Node information copied!');
-            });
-        }
-
-        function toggleCollapsible(element) {
-            const content = element.nextElementSibling;
-            if (content && content.classList.contains('collapsible-content')) {
-                content.classList.toggle('active');
-            }
-        }
-
+        // Terminal
         function toggleTerminal() {
             document.getElementById('terminalPanel').classList.toggle('active');
         }
 
-        // Terminal input
-        document.getElementById('terminalInput').addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-                const cmd = e.target.value.trim().toLowerCase();
-                if (commands[cmd]) {
-                    commands[cmd].fn();
-                } else {
-                    addTerminalLine(`Unknown command: ${cmd}`);
-                }
-                e.target.value = '';
-            }
-        });
-
-        // ==========================================
-        // STATS ANIMATION
-        // ==========================================
-        function animateStats() {
-            const stats = [
-                { element: document.getElementById('uptime'), target: 99.9, suffix: '%' },
-                { element: document.getElementById('activeNodes'), target: 2847, suffix: '' },
-                { element: document.getElementById('requestsPerSec'), target: 1234, suffix: '' },
-                { element: document.getElementById('health'), target: 98, suffix: '%' }
-            ];
-
-            stats.forEach(stat => {
-                let current = 0;
-                const increment = stat.target / 50;
-                const interval = setInterval(() => {
-                    current += increment;
-                    if (current >= stat.target) {
-                        stat.element.textContent = stat.target.toLocaleString() + stat.suffix;
-                        clearInterval(interval);
-                    } else {
-                        stat.element.textContent = Math.floor(current).toLocaleString() + stat.suffix;
-                    }
-                }, 30);
-            });
+        // Restore mode preference
+        if (localStorage.getItem('privateMode') === 'true') {
+            modeToggle.click();
         }
-
-        // ==========================================
-        // SECURITY SCAN ANIMATION
-        // ==========================================
-        function animateSecurityScan() {
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress = (progress + Math.random() * 15) % 100;
-                const barLength = Math.floor(progress / 5);
-                const bar = '█'.repeat(barLength) + '░'.repeat(20 - barLength);
-                document.getElementById('scanStatus').textContent = `Scanning system integrity... [${bar}] ${Math.floor(progress)}%`;
-            }, 1500);
-        }
-
-        // ==========================================
-        // WINDOW RESIZE
-        // ==========================================
-        window.addEventListener('resize', () => {
-            const canvas = document.getElementById('particles');
-            if (canvas) {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-        });
-
-        // ==========================================
-        // KONAMI CODE
-        // ==========================================
-        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0;
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === konamiSequence[konamiIndex]) {
-                konamiIndex++;
-                if (konamiIndex === konamiSequence.length) {
-                    konamiCode();
-                    konamiIndex = 0;
-                }
-            } else {
-                konamiIndex = 0;
-            }
-        });
-
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
-        window.addEventListener('load', () => {
-            initializeMode();
-            initParticles();
-            animateParticles();
-            animateStats();
-            animateSecurityScan();
-            initCharts();
-            updateClock();
-            addTerminalLine('System ready. Type "help" for commands or press Ctrl+/ for command palette');
-            addTerminalLine('Click the ❓ Help button at the top for a complete reference manual!');
-            
-            // Print cool message
-            console.log('%cWATCHTOWER SWAYZONE', 'font-size: 20px; color: #00ff00; font-weight: bold;');
-            console.log('%cPress Ctrl+/ to open command palette. Konami code enabled!', 'color: #00ffff;');
-            console.log('%cClick the Help button (❓) in the navigation for a comprehensive reference guide!', 'color: #00ff00; font-weight: bold;');
-        });
     </script>
 </body>
 </html>
