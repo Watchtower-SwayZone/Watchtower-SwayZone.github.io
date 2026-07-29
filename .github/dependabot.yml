@@ -1,0 +1,21 @@
+# [ENVIRONMENT: Watchtower-SwayZone | OPTIPLEX 3050]
+# [REF: SUPPLY_CHAIN_DEFENSE_01]
+version: 2
+updates:
+  # 1. Python Logic Layer (mesh_scanner.py, mcp_boundary_listener.py)
+  - package-ecosystem: "pip"
+    directory: "/" # Location of requirements.txt [3]
+    schedule:
+      interval: "weekly"
+
+  # 2. Virtualization Layer (Dockerfile & docker-compose.yml)
+  - package-ecosystem: "docker"
+    directory: "/" # Location of Docker manifests [6]
+    schedule:
+      interval: "weekly"
+
+  # 3. Continuous Integration Layer (watchtower-ci.yml)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
