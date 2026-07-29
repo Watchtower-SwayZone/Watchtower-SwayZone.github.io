@@ -2,50 +2,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SwayZone | System Logs & Deployments</title>
-    <style>
-        body { background-color: #0d1117; color: #c9d1d9; font-family: monospace; margin: 0; padding: 0; }
-        .log-entry { border-left: 3px solid #58a6ff; margin-bottom: 30px; background: #161b22; padding: 20px; border-radius: 0 6px 6px 0; border: 1px solid #30363d; }
-        .date { color: #8b949e; font-size: 0.85rem; margin-bottom: 10px; display: block; text-transform: uppercase; letter-spacing: 1px; }
-        h3 { color: #ffffff; margin: 0 0 10px 0; font-size: 1.4rem; }
-        p { margin: 0; line-height: 1.5; color: #8b949e; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Watchtower SwayZone | Milestones</title>
+  <meta name="description" content="Watchtower SwayZone — public summaries of deployments, dashboards, and community milestones." />
+  <style>
+    :root{--bg:#0d1117;--muted:#8b949e;--accent:#58a6ff;--card:#161b22;--mono:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;}
+    html,body{height:100%;margin:0;background:var(--bg);color:#c9d1d9;font-family:var(--mono);-webkit-font-smoothing:antialiased;}
+    .container{max-width:900px;margin:0 auto;padding:32px 20px;}
+    header{padding:36px 0;text-align:center;border-bottom:1px solid #22272b;}
+    h1{color:var(--accent);margin:0;font-size:1.9rem;}
+    p.lead{color:var(--muted);margin:10px 0 18px;}
+    .back{display:inline-block;margin-top:12px;padding:8px 14px;border-radius:6px;background:#21262d;color:#c9d1d9;text-decoration:none;border:1px solid #2b3136;}
+    main{padding:28px 0;}
+    .entry{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid #1b2226;padding:18px;border-radius:8px;margin-bottom:20px;}
+    .meta{color:var(--muted);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;}
+    .title{color:#fff;margin:0 0 8px;font-size:1.2rem;}
+    .desc{color:var(--muted);margin:0;line-height:1.5;}
+    footer{padding:24px 0;color:var(--muted);text-align:center;font-size:0.9rem;}
+    @media (max-width:640px){h1{font-size:1.4rem}}
+    a:focus{outline:3px solid rgba(88,166,255,0.18);outline-offset:3px;}
+  </style>
 </head>
 <body>
+  <header role="banner">
+    <div class="container">
+      <h1>Public Milestones</h1>
+      <p class="lead">Sanitized, public summaries of deployments, dashboards, and community outcomes. Operational details are not published here.</p>
+      <a class="back" href="index.html">&larr; Return to Dashboard</a>
+    </div>
+  </header>
 
-    <header style="padding: 40px 20px; text-align: center; border-bottom: 1px solid #30363d;">
-        <h1 style="color: #58a6ff; margin: 0; font-size: 2rem;">OPERATIONAL LOGS</h1>
-        <p style="color: #8b949e; margin-top: 10px;">Chronological record of SwayZone deployments and architecture milestones.</p>
-        <br>
-        <a href="index.html" style="background-color: #21262d; color: #c9d1d9; padding: 8px 16px; text-decoration: none; border-radius: 6px; border: 1px solid #363b42;">&larr; Return to Dashboard</a>
-    </header>
+  <main class="container" role="main">
+    <article class="entry" aria-labelledby="m1">
+      <div class="meta">July 2026 — Deployment</div>
+      <h2 id="m1" class="title">Local Monitoring Service Launched</h2>
+      <p class="desc">Deployed a localized monitoring service to aggregate sanitized telemetry and generate community reports. Public dashboards display high‑level status and historical summaries; internal telemetry remains private.</p>
+    </article>
 
-    <main style="padding: 40px 20px; max-width: 800px; margin: 0 auto;">
-        
-        <!-- Log Entry: Exocortex -->
-        <div class="log-entry">
-            <span class="date">JULY 2026 | STATUS: ONLINE [PORT 8082]</span>
-            <h3>Exocortex API Routing Layer</h3>
-            <p>Engineered a localized asynchronous task router using FastAPI and Uvicorn. Successfully injected a live telemetry HUD directly into the C2 dashboard to monitor AI agent states and active execution payloads in real-time across the internal mesh network.</p>
-        </div>
-        
-        <!-- Log Entry: Dashboard Hardening -->
-        <div class="log-entry">
-            <span class="date">JUNE 2026 | STATUS: STABLE</span>
-            <h3>SwayZone C2 Display Matrix</h3>
-            <p>Bypassed Tizen OS hardware restrictions on a Samsung Smart Monitor to establish a persistent, kiosk-mode command and control dashboard. Display operates continuously to visualize network traffic, OSINT feeds, and Exocortex task routing.</p>
-        </div>
+    <article class="entry" aria-labelledby="m2">
+      <div class="meta">June 2026 — Dashboard</div>
+      <h2 id="m2" class="title">Continuous Display Dashboard</h2>
+      <p class="desc">Launched a persistent dashboard for visualizing public OSINT feeds and community metrics. The dashboard surfaces sanitized insights and event summaries for volunteers and contributors.</p>
+    </article>
 
-        <!-- Log Entry: Node Expansion -->
-        <div class="log-entry">
-            <span class="date">Q1/Q2 2026 | STATUS: DEPLOYED</span>
-            <h3>Deco Mesh Infrastructure & Sandbox</h3>
-            <p>Expanded local network topology with additional Deco mesh nodes. Integrated a dedicated Dell OptiPlex 3050 Micro server acting as the primary host OS for secure Python virtual environments and isolated Docker container deployments.</p>
-        </div>
+    <article class="entry" aria-labelledby="m3">
+      <div class="meta">Q1–Q2 2026 — Infrastructure</div>
+      <h2 id="m3" class="title">Network Expansion and Sandbox</h2>
+      <p class="desc">Expanded local infrastructure to support testing and isolated development environments. This improved deployment reliability and reduced downtime for public services.</p>
+    </article>
+  </main>
 
-    </main>
-
+  <footer role="contentinfo">
+    <div class="container">
+      <p>© <strong>Watchtower SwayZone</strong> — Public summaries only. For contributor access, see the project repository on GitHub.</p>
+    </div>
+  </footer>
 </body>
 </html>
