@@ -1,16 +1,16 @@
-﻿name: SwayZone Core CI
+# [ENVIRONMENT: GitHub Actions | Repo: Watchtower-SwayZone.github.io]
+# [SECURITY_TIER: Tier 1 Read-Only]
 
 on:
   push:
     branches: [ "main" ]
 
+# ENFORCE LEAST PRIVILEGE
+permissions:
+  contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Verify Architecture Integrity
-      run: |
-        echo "[+] Initializing SwayZone validation protocols..."
-        echo "[+] Verifying HTML routing and environment stability..."
-        echo "[+] SUCCESS: Core architecture is stable."
+      - uses: actions/checkout@v4
